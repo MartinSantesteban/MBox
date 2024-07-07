@@ -16,7 +16,7 @@ string Printer::visit(Expr& e){
 }
 
 string Printer::visitBinary(Binary& e){
-       string s = e.op->lexeme + " (" + (*e.left).accept(*this) + ") (" + (*e.right).accept(*this) + ") ";    
+       string s = e.op->lexeme + " (" + (*e.left).accept(*this) + ") (" + (*e.right).accept(*this) + ")";    
        return s;
 }
 
