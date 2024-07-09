@@ -5,6 +5,10 @@
 CC=g++
 CFLAGS= -c -Wall
 
+
+clean: 
+	rm -rf ./bin/*.o
+
 test_all: test_CLoxLexer test_CLox test_AST_Visitors
 
 test_CLoxLexer: CLoxLexer.o token.o enums_and_maps.o test_CLoxLexer.o
@@ -49,11 +53,14 @@ visitor.o: ./src/visitor.cpp
 	$(CC) $(CFLAGS) ./src/visitor.cpp -o ./bin/visitor.o
 
 
-clean: 
-	rm -rf ./bin/*.o
+test_CLoxParser: CLoxParser.o token.o enums_and_maps.o test_CLoxParser.o AST.o visitor.o
+	$(CC) -o ./bin/test_CLoxParser ./bin/AST.o ./bin/visitor.o ./bin/CLoxParser.o ./bin/token.o ./bin/enums_and_maps.o ./bin/test_CLoxParser.o
+	./bin/test_CLoxParser
 
-main: src/main.cpp
-	g++ -o ./bin/main ./src/main.cpp 
-	./bin/main
+CLoxParser.o: ./src/CLoxParser.cpp
+	$(CC) $(CFLAGS) ./src/CLoxParser.cpp -o ./bin/CLoxParser.o
+
+test_CLoxParser.o: ./testing/test_CLoxParser.cpp
+	$(CC) $(CFLAGS) ./testing/test_CLoxParser.cpp -o ./bin/test_CLoxParser.o
 
 

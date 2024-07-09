@@ -1,16 +1,17 @@
-#include "AST.cpp"
+#include "./AST.h"
+#include "./token.h"
+#include "./enums_and_maps.h"
+#include <stdexcept>
+
 
 class Parser{
     public:
         vector<Token> tokens;
         int current;
-        Parser(vector<Token> t){
-            this->tokens = t;
-            this->current = 0;
-        }
-
+        Parser(vector<Token> t);
+        Expr parse();
     private:
-        /*
+        
         Expr expression();
         Expr equality();
         Expr comparison();
@@ -18,5 +19,6 @@ class Parser{
         Expr factor();
         Expr unary();
         Expr primary();
-        */
+        
+        bool match(tokenType t);
 };
