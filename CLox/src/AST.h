@@ -9,6 +9,10 @@ class Visitor;
 class Expr{ 
     public:
         virtual string accept(Visitor& v);
+        bool operator ==(Expr& e);
+        bool operator !=(Expr& e);
+    private: 
+        virtual bool _equals(Expr& e);
 };
 
 class Binary : public Expr{
@@ -18,6 +22,8 @@ class Binary : public Expr{
         Token* op;
         Expr* right;
         string accept(Visitor& v);
+    private: 
+        bool _equals(Expr& e);
 };
 
 class Grouping : public Expr{
@@ -25,13 +31,17 @@ class Grouping : public Expr{
         Grouping(Expr *expression);
         Expr* expression;
         string accept(Visitor& v);
+    private: 
+        bool _equals(Expr& e);
 };
 
 class Literal : public Expr{
     public:
         Literal(Token* t);
-        string value;
+        Token* value;
         string accept(Visitor& v);
+    private: 
+        bool _equals(Expr& e);
 };
 
 class Unary : public Expr{
@@ -40,6 +50,8 @@ class Unary : public Expr{
         Token* op;
         Expr* right;
         string accept(Visitor& v);
+    private: 
+        bool _equals(Expr& e);
 };
 
 #endif

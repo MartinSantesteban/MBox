@@ -26,7 +26,7 @@ string Printer::visitGrouping(Grouping& e){
 }
 
 string Printer::visitLiteral(Literal& e){
-       string s = e.value;
+       string s = e.value->lexeme;
        return s;
 }
 

@@ -9,7 +9,7 @@ CFLAGS= -c -Wall
 clean: 
 	rm -rf ./bin/*.o
 
-test_all: test_CLoxLexer test_CLox test_AST_Visitors
+test_all: test_CLoxLexer test_CLox test_AST_Visitors test_AST_Expressions
 
 test_CLoxLexer: CLoxLexer.o token.o enums_and_maps.o test_CLoxLexer.o
 	$(CC) -o ./bin/test_CLoxLexer ./bin/token.o ./bin/CLoxLexer.o ./bin/enums_and_maps.o ./bin/test_CLoxLexer.o
@@ -37,11 +37,16 @@ test_CLoxLexer.o: ./testing/test_CLoxLexer.cpp
 test_CLox.o: ./testing/test_CLox.cpp
 	$(CC) $(CFLAGS) ./testing/test_CLox.cpp -o ./bin/test_CLox.o
 
+test_AST_Expressions: test_AST_Expressions.o AST.o visitor.o token.o enums_and_maps.o
+	$(CC) -o ./bin/test_AST_Expressions ./bin/test_AST_Expressions.o ./bin/AST.o ./bin/visitor.o ./bin/token.o ./bin/enums_and_maps.o
+	./bin/test_AST_Expressions
 
+test_AST_Expressions.o : ./testing/test_AST_Expressions.cpp
+	$(CC) $(CFLAGS) ./testing/test_AST_Expressions.cpp -o ./bin/test_AST_Expressions.o
 
 test_AST_Visitors: test_AST_Visitors.o AST.o visitor.o token.o enums_and_maps.o
-	$(CC) -o ./bin/test_AST ./bin/test_AST_Visitors.o ./bin/AST.o ./bin/visitor.o ./bin/token.o ./bin/enums_and_maps.o
-	./bin/test_AST
+	$(CC) -o ./bin/test_AST_Visitors ./bin/test_AST_Visitors.o ./bin/AST.o ./bin/visitor.o ./bin/token.o ./bin/enums_and_maps.o
+	./bin/test_AST_Visitors
 
 test_AST_Visitors.o : ./testing/test_AST_Visitors.cpp
 	$(CC) $(CFLAGS) ./testing/test_AST_Visitors.cpp -o ./bin/test_AST_Visitors.o

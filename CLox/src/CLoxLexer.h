@@ -12,9 +12,9 @@ class CLoxLexer {
 	private:
 		string src_code;
 		vector<Token> tokens;
-		int start = 0;
-		int current = 0;
-		int line = 0;
+		unsigned int start = 0;
+		unsigned int current = 0;
+		unsigned int line = 0;
 
 		bool isAtEnd();
 		void scanToken();

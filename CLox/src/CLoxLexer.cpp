@@ -20,7 +20,6 @@ bool CLoxLexer::isAtEnd(){
 void CLoxLexer::scanToken(){
 	char current_char = src_code[start];
 	char next_char = src_code[current+1]; 
-	tokenType t;
 	switch(current_char){
 		case ' ':
 			current++;

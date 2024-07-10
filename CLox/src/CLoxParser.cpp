@@ -90,3 +90,6 @@ Expr Parser::primary(){
     }
     throw invalid_argument("NO PARSEA!");
 }
+
+
+// Refactor con clossures?
