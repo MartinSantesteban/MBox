@@ -15,6 +15,7 @@ Token::Token(const Token &t){
 
 Token::Token() = default; //default constructor para poder pasar token como param.
 
+
 bool Token::operator<(const Token& t) const{	
     return true;
 }

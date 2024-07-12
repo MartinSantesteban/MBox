@@ -13,6 +13,7 @@ class Expr{
         bool operator !=(Expr& e);
     private: 
         virtual bool _equals(Expr& e);
+        
 };
 
 class Binary : public Expr{

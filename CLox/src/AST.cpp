@@ -50,7 +50,7 @@ bool Grouping::_equals(Expr& e){
 }
 
 Literal::Literal(Token* t){
-        this->value = t;
+    this->value = t;
 }
 
 string Literal::accept(Visitor& v){

@@ -4,21 +4,25 @@
 #include <stdexcept>
 
 
-class Parser{
+class CLoxParser{
     public:
-        vector<Token> tokens;
-        int current;
-        Parser(vector<Token> t);
-        Expr parse();
+        CLoxParser(vector<Token> t);
+        ~CLoxParser();
+        Expr* parse();
     private:
         
-        Expr expression();
-        Expr equality();
-        Expr comparison();
-        Expr term();
-        Expr factor();
-        Expr unary();
-        Expr primary();
+        Expr* expression();
+        Expr* equality();
+        Expr* comparison();
+        Expr* term();
+        Expr* factor();
+        Expr* unary();
+        Expr* primary();
         
         bool match(tokenType t);
-};
+
+        vector<Token> tokens;
+        vector<Expr*> pointers;
+        unsigned int current;
+        
+};      
