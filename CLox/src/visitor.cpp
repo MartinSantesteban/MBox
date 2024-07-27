@@ -10,7 +10,6 @@ string Visitor::visitLiteral(Literal& e){return "";}
 
 string Visitor::visitUnary(Unary& e){return "";}
 
-
 string Printer::visit(Expr& e){
        return e.accept(*this);
 }
@@ -26,7 +25,7 @@ string Printer::visitGrouping(Grouping& e){
 }
 
 string Printer::visitLiteral(Literal& e){
-       string s = e.value->lexeme;
+       string s = (e.value)->lexeme;
        return s;
 }
 

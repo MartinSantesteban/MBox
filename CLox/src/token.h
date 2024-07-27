@@ -14,7 +14,7 @@ class Token{
         friend ostream& operator<< (ostream &out, const Token& t);
     //private:
         tokenType token_type; 
-        string lexeme;  // el raw string del token
+        string lexeme;  // el raw string del token "7"
         int line;
 };
 

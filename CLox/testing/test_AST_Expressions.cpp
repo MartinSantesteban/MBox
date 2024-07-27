@@ -15,7 +15,10 @@ TEST_CASE("Testing: Correct literal == operator overload.") {
 
 	CHECK(l1 == l2);
 	CHECK(l2 != l3);
+	CHECK(l1 != l3);
 	CHECK(l1 != g1);
+	CHECK(l2 != g1);
+	CHECK(l3 != g1);
 }
 
 TEST_CASE("Testing: Correct Unary == operator overload.") {

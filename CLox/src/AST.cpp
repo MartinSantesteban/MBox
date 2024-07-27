@@ -58,9 +58,9 @@ string Literal::accept(Visitor& v){
 }
 
 bool Literal::_equals(Expr& e){
-    if(typeid(*this) != typeid(e)) return false;
-    auto e_literal = static_cast<Literal &>(e);
-    return (this->value) == (e_literal.value);
+    if(typeid(*this) != typeid(e)) return false;     
+    auto e_literal = dynamic_cast<Literal &>(e);
+    return *(this->value) == *(e_literal.value);
 }
 
 Unary::Unary(Token *op,Expr *right){

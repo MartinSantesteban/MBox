@@ -3,7 +3,7 @@
 # Cuando usas make Target, se encarga make de que todas las dependencias esten up to date.
 
 CC=g++
-CFLAGS= -c -Wall
+CFLAGS= -c -g -Wall
 
 
 clean: 

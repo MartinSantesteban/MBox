@@ -11,10 +11,6 @@ TEST_CASE("Correct parsing of literal expression. -- NUMBER"){
     tokens.push_back(t);
     CLoxParser p1(tokens);
     Literal l(&t);
-    Expr* x = p1.parse();
-    cout << "Visit Literal l: " << p.visit(l) << endl;
-    cout << "Visit expr *x: " << p.visit(*x) << endl;
-    CHECK(typeid(*x) == typeid(l));
-    CHECK((*x) == l);
-    
+    Expr* res = p1.parse();
+    CHECK(l == *res);
 }
