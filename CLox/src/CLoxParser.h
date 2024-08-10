@@ -22,7 +22,8 @@ class CLoxParser{
         bool match(tokenType t);
 
         vector<Token> tokens;
-        vector<Expr*> pointers;
+        vector<Expr*> expr_pointers;
+        vector<Token*> token_pointers;
         unsigned int current;
         
 };      

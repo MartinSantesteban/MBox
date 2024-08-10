@@ -6,6 +6,8 @@ Printer p;
 CLoxParser::CLoxParser(vector<Token> t){
     this->tokens = t;
     this->current = 0;
+    this->expr_pointers = vector<Expr*>();
+    this->token_pointers = vector<Token*>();
 }
 
 bool CLoxParser::match(tokenType tt){
@@ -38,21 +40,40 @@ Expr* CLoxParser::term(){
 }
 
 Expr* CLoxParser::factor(){
-    Expr* res = unary();
-    return res;
+    Expr* right = unary();
+    while(match(SLASH)){
+        Token* factor_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(factor_token_ptr);
+        current++;
+        Expr* left = unary();
+        right = new Binary(right, factor_token_ptr, left);  // <- asociativo a izquierda!
+        this->expr_pointers.push_back(right);
+    }
+    return right;
 }
 
 Expr* CLoxParser::unary(){
-    Expr* res = primary();
-    return res;
+    if(match(BANG) || match(MINUS)){
+        Token* bang_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(bang_token_ptr);
+        current++;
+        Expr* right = primary();
+        Expr* res = new Unary(bang_token_ptr, right);
+        this->expr_pointers.push_back(res);
+        return res;
+    }else{
+        Expr* res = primary();
+        return res;
+    }
 }
 
 Expr* CLoxParser::primary(){
-    if(match(NUMBER)){
-        Token literal_token = this->tokens[current];
+    if(match(NUMBER) || match(STRING) || match(TRUE) || match(FALSE) || match(NIL)){
+        Token* token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(token_ptr);
         current++;
-        Expr* res = new Literal(&literal_token);
-        this->pointers.push_back(res);
+        Expr* res = new Literal(token_ptr);
+        this->expr_pointers.push_back(res);
         return res;
     }
     throw invalid_argument("NO PARSEA!");
@@ -60,8 +81,10 @@ Expr* CLoxParser::primary(){
 
 
 CLoxParser::~CLoxParser(){
-    cout << this->pointers.size() << endl;
-    for(auto &ptr : this->pointers){
+    for(auto &ptr : this->expr_pointers){
+        delete ptr;
+    }
+    for(auto &ptr : this->token_pointers){
         delete ptr;
     }
 }
