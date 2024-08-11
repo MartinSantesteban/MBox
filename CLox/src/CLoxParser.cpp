@@ -16,6 +16,7 @@ bool CLoxParser::match(tokenType tt){
 
 Expr* CLoxParser::parse(){
     Expr* res = expression();
+    if(match(R_PAREN)) throw invalid_argument("CLoxParser -- Left parenthesis expected.");
     return res;
 }
 
@@ -25,23 +26,47 @@ Expr* CLoxParser::expression(){
 }
 
 Expr* CLoxParser::equality(){
-    Expr* res = comparison();
-    return res;
+    Expr* right = comparison();
+    while(match(EQUAL_EQUAL) || match(BANG_EQUAL)){
+        Token* cmp_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(cmp_token_ptr);
+        current++;
+        Expr* left = term();
+        right = new Binary(right, cmp_token_ptr, left);  
+        this->expr_pointers.push_back(right);
+    }
+    return right;
 }
 
 Expr* CLoxParser::comparison(){
-    Expr* res = term();
-    return res;
+    Expr* right = term();
+    while(match(LESS) || match(LESS_EQUAL) || match(GREATER) || match(GREATER_EQUAL)){
+        Token* cmp_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(cmp_token_ptr);
+        current++;
+        Expr* left = term();
+        right = new Binary(right, cmp_token_ptr, left);  
+        this->expr_pointers.push_back(right);
+    }
+    return right;
 }
 
 Expr* CLoxParser::term(){
-    Expr* res = factor();
-    return res;
+    Expr* right = factor();
+    while(match(PLUS) || match(MINUS)){
+        Token* term_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(term_token_ptr);
+        current++;
+        Expr* left = factor();
+        right = new Binary(right, term_token_ptr, left);  
+        this->expr_pointers.push_back(right);
+    }
+    return right;
 }
 
 Expr* CLoxParser::factor(){
     Expr* right = unary();
-    while(match(SLASH)){
+    while(match(SLASH) || match(STAR)){
         Token* factor_token_ptr = new Token(this->tokens[current]);
         this->token_pointers.push_back(factor_token_ptr);
         current++;
@@ -76,7 +101,20 @@ Expr* CLoxParser::primary(){
         this->expr_pointers.push_back(res);
         return res;
     }
-    throw invalid_argument("NO PARSEA!");
+    if(match(L_PAREN)){
+        current++;
+        Expr* res = expression();
+        res = new Grouping(res);
+        this->expr_pointers.push_back(res);
+        if(match(R_PAREN)){
+            current++;
+        }else{
+            throw invalid_argument("CLoxParser -- Right parenthesis expected.");        
+        }
+        return res;
+    }
+    if(match(R_PAREN)) throw invalid_argument("CLoxParser -- Left parenthesis expected."); // este esta solo para que si te encontras un R_PAREN solo sea mas informativo el mensaje
+    throw invalid_argument("CLoxParser -- Invalid token type encountered.");
 }
 
 
