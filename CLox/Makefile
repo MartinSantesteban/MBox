@@ -9,7 +9,7 @@ CFLAGS= -c -g -Wall
 clean: 
 	rm -rf ./bin/*.o
 
-test_all: test_CLoxLexer test_CLox test_AST_Visitors test_AST_Expressions
+test_all: test_CLoxLexer test_CLox test_AST_Visitors test_AST_Expressions test_CLoxParser
 
 test_CLoxLexer: CLoxLexer.o token.o enums_and_maps.o test_CLoxLexer.o
 	$(CC) -o ./bin/test_CLoxLexer ./bin/token.o ./bin/CLoxLexer.o ./bin/enums_and_maps.o ./bin/test_CLoxLexer.o

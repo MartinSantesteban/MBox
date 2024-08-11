@@ -1,9 +1,15 @@
-#include "./CLoxParser.h"
+// Aca tengo el Parser pre refactor, en caso de necesitar debugear y que entorpezca el refactor o haya que agregar features a no terminales en especial. 
+
+
 #include "./visitor.h"
 
-CLoxParser::CLoxParser(vector<Token>& t){
+Printer p;
+
+CLoxParser::CLoxParser(vector<Token> t){
     this->tokens = t;
     this->current = 0;
+    this->expr_pointers = vector<Expr*>();
+    this->token_pointers = vector<Token*>();
 }
 
 bool CLoxParser::match(tokenType tt){
@@ -11,69 +17,76 @@ bool CLoxParser::match(tokenType tt){
 }
 
 Expr* CLoxParser::parse(){
-    return expression();
+    Expr* res = expression();
+    if(match(R_PAREN)) throw invalid_argument("CLoxParser -- Left parenthesis expected.");
+    return res;
 }
 
 Expr* CLoxParser::expression(){
-    return equality();
+    Expr* res = equality();
+    return res;
 }
 
 Expr* CLoxParser::equality(){
-    Expr* res = comparison();
+    Expr* right = comparison();
     while(match(EQUAL_EQUAL) || match(BANG_EQUAL)){
-        Token eq_operator = tokens[current];
+        Token* cmp_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(cmp_token_ptr);
         current++;
-        Expr* right = comparison();
-        Expr* res = new Binary(res, &eq_operator, right);
-        this->pointers.push_back(res);
+        Expr* left = term();
+        right = new Binary(right, cmp_token_ptr, left);  
+        this->expr_pointers.push_back(right);
     }
-    return res;
+    return right;
 }
 
 Expr* CLoxParser::comparison(){
-    Expr* res = term();
+    Expr* right = term();
     while(match(LESS) || match(LESS_EQUAL) || match(GREATER) || match(GREATER_EQUAL)){
-        Token comparison_operator = tokens[current];
+        Token* cmp_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(cmp_token_ptr);
         current++;
-        Expr* right = term();
-        Expr* res = new Binary(res, &comparison_operator, right);
-        this->pointers.push_back(res);
+        Expr* left = term();
+        right = new Binary(right, cmp_token_ptr, left);  
+        this->expr_pointers.push_back(right);
     }
-    return res;
+    return right;
 }
 
 Expr* CLoxParser::term(){
-    Expr* res = factor();
-    while(match(SLASH) || match(PLUS)){
-        Token term_operator = tokens[current];
+    Expr* right = factor();
+    while(match(PLUS) || match(MINUS)){
+        Token* term_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(term_token_ptr);
         current++;
-        Expr* right = factor();
-        Expr* res = new Binary(res, &term_operator, right);
-        this->pointers.push_back(res);
+        Expr* left = factor();
+        right = new Binary(right, term_token_ptr, left);  
+        this->expr_pointers.push_back(right);
     }
-    return res;
+    return right;
 }
 
 Expr* CLoxParser::factor(){
-    Expr* res = unary();
-    while(match(SLASH) || match(PLUS)){
-        Token comparison_operator = tokens[current];
+    Expr* right = unary();
+    while(match(SLASH) || match(STAR)){
+        Token* factor_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(factor_token_ptr);
         current++;
-        Expr* right = unary();
-        Expr* res = new Binary(res, &comparison_operator, right);
-        this->pointers.push_back(res);
+        Expr* left = unary();
+        right = new Binary(right, factor_token_ptr, left);  // <- asociativo a izquierda!
+        this->expr_pointers.push_back(right);
     }
-    //cout << p.visit(*res) << endl;
-    return res;
+    return right;
 }
 
 Expr* CLoxParser::unary(){
-    if(match(BANG) || match(SLASH)){
-        Token unary_operator = tokens[current];
+    if(match(BANG) || match(MINUS)){
+        Token* bang_token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(bang_token_ptr);
         current++;
         Expr* right = primary();
-        Expr* res = new Unary(&unary_operator, right);
-        this->pointers.push_back(res);
+        Expr* res = new Unary(bang_token_ptr, right);
+        this->expr_pointers.push_back(res);
         return res;
     }else{
         Expr* res = primary();
@@ -83,26 +96,35 @@ Expr* CLoxParser::unary(){
 
 Expr* CLoxParser::primary(){
     if(match(NUMBER) || match(STRING) || match(TRUE) || match(FALSE) || match(NIL)){
-        Token literal_token = tokens[current];
+        Token* token_ptr = new Token(this->tokens[current]);
+        this->token_pointers.push_back(token_ptr);
         current++;
-        cout << literal_token << endl;               // si descomento esto se arregla todo 
-        Expr* res = new Literal(&literal_token);
-        this->pointers.push_back(res);
+        Expr* res = new Literal(token_ptr);
+        this->expr_pointers.push_back(res);
         return res;
     }
-    if(match(L_PAREN) && tokens[tokens.size() - 1].token_type == R_PAREN){
+    if(match(L_PAREN)){
         current++;
-        Expr* e = expression();
-        Expr* res = new Grouping(e);
-        this->pointers.push_back(res);
+        Expr* res = expression();
+        res = new Grouping(res);
+        this->expr_pointers.push_back(res);
+        if(match(R_PAREN)){
+            current++;
+        }else{
+            throw invalid_argument("CLoxParser -- Right parenthesis expected.");        
+        }
         return res;
     }
-    throw invalid_argument("NO PARSEA!");
+    if(match(R_PAREN)) throw invalid_argument("CLoxParser -- Left parenthesis expected."); // este esta solo para que si te encontras un R_PAREN solo sea mas informativo el mensaje
+    throw invalid_argument("CLoxParser -- Invalid token type encountered.");
 }
 
+
 CLoxParser::~CLoxParser(){
-    cout << this->pointers.size() << endl;
-    for(auto &ptr : this->pointers){
+    for(auto &ptr : this->expr_pointers){
+        delete ptr;
+    }
+    for(auto &ptr : this->token_pointers){
         delete ptr;
     }
 }
