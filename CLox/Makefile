@@ -57,7 +57,6 @@ AST.o: ./src/AST.cpp
 visitor.o: ./src/visitor.cpp
 	$(CC) $(CFLAGS) ./src/visitor.cpp -o ./bin/visitor.o
 
-
 test_CLoxParser: CLoxParser.o token.o enums_and_maps.o test_CLoxParser.o AST.o visitor.o CLoxInterpreter.o
 	$(CC) -o ./bin/test_CLoxParser ./bin/AST.o ./bin/visitor.o ./bin/CLoxParser.o ./bin/token.o ./bin/enums_and_maps.o ./bin/test_CLoxParser.o ./bin/CLoxInterpreter.o
 	./bin/test_CLoxParser
@@ -70,3 +69,13 @@ test_CLoxParser.o: ./testing/test_CLoxParser.cpp
 
 CLoxInterpreter.o: ./src/CLoxInterpreter.cpp
 	$(CC) $(CFLAGS) ./src/CLoxInterpreter.cpp -o ./bin/CLoxInterpreter.o
+
+test_CLoxInterpreter.o: ./testing/test_CLoxInterpreter.cpp
+	$(CC) $(CFLAGS) ./testing/test_CLoxInterpreter.cpp -o ./bin/test_CLoxInterpreter.o
+
+test_CLoxInterpreter: enums_and_maps.o token.o AST.o CLoxInterpreter.o test_CLoxInterpreter.o
+	$(CC) -o ./bin/test_CLoxInterpreter ./bin/token.o ./bin/enums_and_maps.o ./bin/AST.o ./bin/CLoxInterpreter.o ./bin/test_CLoxInterpreter.o
+	./bin/test_CLoxInterpreter
+
+
+	
