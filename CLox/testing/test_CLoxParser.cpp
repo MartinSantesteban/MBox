@@ -203,7 +203,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch missing R_PA
 
     Literal l(&t2);
     Grouping g(&l);
-    CHECK_THROWS_WITH(test_parsing(tokens, g), "CLoxParser -- Right parenthesis expected.");
+    CHECK_THROWS_WITH(test_parsing(tokens, g), "CLoxParser :: line 0 -- Right parenthesis expected.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch missing L_PAREN"){
@@ -216,7 +216,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch missing L_PA
 
     Literal l(&t2);
     Grouping g(&l);
-    CHECK_THROWS_WITH(test_parsing(tokens, g), "CLoxParser -- Left parenthesis expected.");
+    CHECK_THROWS_WITH(test_parsing(tokens, g), "CLoxParser :: line 0 -- Left parenthesis expected.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch missing L_PAREN"){
@@ -226,7 +226,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch missing L_PA
     tokens.push_back(t1);
 
     Literal l(&t1);
-    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser -- Left parenthesis expected.");
+    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser :: line 0 -- Left parenthesis expected.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch single invalid token"){
@@ -236,7 +236,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch single inval
     tokens.push_back(t1);
 
     Literal l(&t1);
-    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser -- Invalid token encountered.");
+    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser :: line 0 -- Invalid token encountered.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch invalid tokens"){
@@ -248,7 +248,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch invalid toke
     tokens.push_back(t2);
 
     Literal l(&t1);
-    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser -- Invalid token encountered.");
+    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser :: line 0 -- Invalid token encountered.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch dangling token after correct expression"){
@@ -264,6 +264,6 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch dangling tok
     tokens.push_back(t4);
 
     Literal l(&t1);
-    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser -- Invalid token encountered.");
+    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser :: line 0 -- Invalid token encountered.");
 }
 

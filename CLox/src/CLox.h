@@ -7,6 +7,8 @@
 #include<fstream>
 
 #include "./CLoxLexer.h"
+#include "./CLoxParser.h"
+
 
 class CLox {
 	public:

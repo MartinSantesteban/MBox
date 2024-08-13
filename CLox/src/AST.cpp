@@ -1,9 +1,4 @@
 #include "./AST.h"
-#include <typeinfo>
-
-string Expr::accept(Visitor& v){
-    return "Expr: Subclass responsability.";
-}
 
 bool Expr::_equals(Expr& e){
     return typeid(*this) == typeid(e);
@@ -27,6 +22,10 @@ string Binary::accept(Visitor& v){
     return v.visitBinary(*this);
 }
 
+any Binary::accept(CLoxInterpreter& i){
+    return i.interpretBinary(*this);
+}
+
 bool Binary::_equals(Expr& e){
     if(typeid(*this) != typeid(e)) return false;
     auto e_bin = static_cast<Binary &>(e);
@@ -43,6 +42,10 @@ string Grouping::accept(Visitor& v){
     return v.visitGrouping(*this);
 }
 
+any Grouping::accept(CLoxInterpreter& i){
+    return i.interpretGrouping(*this);
+}
+
 bool Grouping::_equals(Expr& e){
     if(typeid(*this) != typeid(e)) return false;
     auto e_grouping = static_cast<Grouping &>(e);
@@ -55,6 +58,10 @@ Literal::Literal(Token* t){
 
 string Literal::accept(Visitor& v){
     return v.visitLiteral(*this);
+}
+
+any Literal::accept(CLoxInterpreter& i){
+    return i.interpretLiteral(*this);
 }
 
 bool Literal::_equals(Expr& e){
@@ -70,6 +77,10 @@ Unary::Unary(Token *op,Expr *right){
 
 string Unary::accept(Visitor& v){
     return v.visitUnary(*this);
+}
+
+any Unary::accept(CLoxInterpreter& i){
+    return i.interpretUnary(*this);
 }
 
 bool Unary::_equals(Expr& e){

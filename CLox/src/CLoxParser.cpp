@@ -41,7 +41,7 @@ Expr* CLoxParser::Binary_Positive_Clossure(CLoxParser* parser, Expr* (CLoxParser
 
 Expr* CLoxParser::parse(){
     Expr* res = expression();
-    if(match(R_PAREN)) throw invalid_argument("CLoxParser -- Left parenthesis expected.");
+    if(match(R_PAREN)) throw invalid_argument("CLoxParser :: line " + to_string(this->tokens[current].line) + " -- Left parenthesis expected.");
     return res;
 }
 
@@ -94,12 +94,12 @@ Expr* CLoxParser::primary(){
         Expr* res = expression();
         res = new Grouping(res);
         this->expr_pointers.push_back(res);
-        if(!match(R_PAREN)) throw invalid_argument("CLoxParser -- Right parenthesis expected.");        
+        if(!match(R_PAREN)) throw invalid_argument("CLoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Right parenthesis expected.");        
         current++;
         return res;
     }
-    if(match(R_PAREN)) throw invalid_argument("CLoxParser -- Left parenthesis expected."); 
-    throw invalid_argument("CLoxParser -- Invalid token encountered.");
+    if(match(R_PAREN)) throw invalid_argument("CLoxParser :: line " + to_string(this->tokens[current].line) + " -- Left parenthesis expected."); 
+    throw invalid_argument("CLoxParser :: line " + to_string(this->tokens[current].line) + " -- Invalid token encountered.");
 }
 
 CLoxParser::~CLoxParser(){

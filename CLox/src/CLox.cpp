@@ -1,9 +1,7 @@
 #include "./CLox.h"
 
-
 int CLox::scan(int argc, const char *args[]){
 	if(argc > 1){
-		// este cout tiene sentido cuando tengamos el main andando.
 		cout << "USAGE: clox <path of lox sourcefile>" << endl; 
 		return -1;
 	}else if(argc == 1){
@@ -55,9 +53,8 @@ int CLox::runPrompt(){
 void CLox::run(string src){
 	CLoxLexer l(src);
 	vector<Token> tokens = l.scan();
-	for(Token t : tokens){
-		cout << t << endl;
-	}
+	CLoxParser p(tokens);
+	Expr* ast = p.parse();
 }
 
 

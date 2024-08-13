@@ -13,8 +13,6 @@ class Unary;
 
 class Visitor{
 public:
-       //Visitor();
-       //~Visitor();
        virtual string visit(Expr& e);
        virtual string visitBinary(Binary& e);
        virtual string visitGrouping(Grouping& e);
@@ -24,8 +22,6 @@ public:
 
 class Printer : public Visitor{
 public:      
-       //Printer();
-       //~Printer();
        string visit(Expr& e);
        string visitBinary(Binary& e);
        string visitGrouping(Grouping& e);
@@ -34,3 +30,5 @@ public:
 };
 
 #endif
+
+// ver como meter un visitor con otro return type

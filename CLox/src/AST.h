@@ -3,12 +3,15 @@
 
 #include "./token.h"
 #include "./visitor.h"
+#include "./CLoxInterpreter.h"
 
 class Visitor;
+class CLoxInterpreter;
 
 class Expr{ 
     public:
-        virtual string accept(Visitor& v);
+        virtual string accept(Visitor& v) = 0;
+        virtual any accept(CLoxInterpreter& v) = 0;
         bool operator ==(Expr& e);
         bool operator !=(Expr& e);
     private: 
@@ -22,6 +25,7 @@ class Binary : public Expr{
         Token* op;
         Expr* right;
         string accept(Visitor& v);
+        any accept(CLoxInterpreter& v);
     private: 
         bool _equals(Expr& e);
 };
@@ -31,6 +35,7 @@ class Grouping : public Expr{
         Grouping(Expr *expression);
         Expr* expression;
         string accept(Visitor& v);
+        any accept(CLoxInterpreter& v);
     private: 
         bool _equals(Expr& e);
 };
@@ -40,6 +45,7 @@ class Literal : public Expr{
         Literal(Token* t);
         Token* value;
         string accept(Visitor& v);
+        any accept(CLoxInterpreter& v);
     private: 
         bool _equals(Expr& e);
 };
@@ -50,6 +56,7 @@ class Unary : public Expr{
         Token* op;
         Expr* right;
         string accept(Visitor& v);
+        any accept(CLoxInterpreter& v);
     private: 
         bool _equals(Expr& e);
 };
