@@ -122,7 +122,7 @@ TEST_CASE("Testing: Correct interpretation of Grouping expression."){
     double interpretation2 = any_cast<double>(i.interpret(g2));
     CHECK(interpretation == interpretation2);
 }
-/*
+
 TEST_CASE("Testing: Correct interpretation of Binary expression. -- <, <= , >, >= "){
     Token t1(NUMBER, "989", 0);
     Token t2(NUMBER, "989", 0);
@@ -149,9 +149,103 @@ TEST_CASE("Testing: Correct interpretation of Binary expression. -- <, <= , >, >
     bool interpretation3 = any_cast<bool>(i.interpret(b3));
     bool interpretation4 = any_cast<bool>(i.interpret(b4));
 
-    CHECK(interpretation1);
+    CHECK(!interpretation1);
     CHECK(interpretation2);
-    CHECK(interpretation3);
+    CHECK(!interpretation3);
     CHECK(interpretation4);
 }
-*/
+
+TEST_CASE("Testing: Correct interpretation of Binary expression. -- +, -, *, / "){
+    Token t1(NUMBER, "5", 0);
+    Token t2(NUMBER, "2", 0);
+	
+    Literal l1(&t1);
+    Literal l2(&t2);
+
+    Token op1(PLUS, "+", 0);
+    Token op2(MINUS, "-", 0);
+    Token op3(STAR, "*", 0);
+    Token op4(SLASH, "/", 0);
+
+    Binary b1(&l1, &op1, &l2); // 5 + 2
+    Binary b2(&l1, &op2, &l2); // 5 - 2
+    Binary b3(&l1, &op3, &l2); // 5 * 2
+    Binary b4(&l1, &op4, &l2); // 5 / 2
+     
+    CLoxInterpreter i;
+
+    double interpretation1 = any_cast<double>(i.interpret(b1));
+    double interpretation2 = any_cast<double>(i.interpret(b2));
+    double interpretation3 = any_cast<double>(i.interpret(b3));
+    double interpretation4 = any_cast<double>(i.interpret(b4));
+
+    CHECK(interpretation1 == 7);
+    CHECK(interpretation2 == 3);
+    CHECK(interpretation3 == 10);
+    CHECK(interpretation4 == 2.5);
+}
+
+TEST_CASE("Testing: Correct interpretation of Binary expression. -- string concatenation +"){
+    Token t1(STRING, "foo", 0);
+    Token op1(PLUS, "+", 0);
+    Token t2(STRING, "bar", 0);
+	
+    Literal l1(&t1);
+    Literal l2(&t2);
+    Binary b1(&l1, &op1, &l2); 
+     
+    CLoxInterpreter i;
+    string interpretation1 = any_cast<string>(i.interpret(b1));
+
+    CHECK(interpretation1 == "foobar");
+}
+
+TEST_CASE("Testing: Correct interpretation of Binary expression. -- == , !="){
+    Token t1(NUMBER, "5", 0);
+    Token op1(EQUAL_EQUAL, "==", 0);
+    Token op2(BANG_EQUAL, "!=", 0);
+    Token t2(NUMBER, "10", 0);
+	
+    Literal l1(&t1);
+    Literal l2(&t2);
+    Binary b1(&l1, &op1, &l1); 
+    Binary b2(&l1, &op1, &l2); 
+    Binary b3(&l1, &op2, &l2);
+    Binary b4(&l1, &op2, &l1); 
+    
+    CLoxInterpreter i;
+    bool interpretation1 = any_cast<bool>(i.interpret(b1));
+    bool interpretation2 = any_cast<bool>(i.interpret(b2));
+    bool interpretation3 = any_cast<bool>(i.interpret(b3));
+    bool interpretation4 = any_cast<bool>(i.interpret(b4));
+
+    CHECK(interpretation1);
+    CHECK(!interpretation2);
+    CHECK(interpretation3);
+    CHECK(!interpretation4);
+}
+
+TEST_CASE("Testing: Correct interpretation of expression."){
+    Token n1(NUMBER, "1", 0);
+    Token op1(PLUS, "+", 0);
+    Token n2(NUMBER, "4", 0);
+    Token op2(EQUAL_EQUAL, "==", 0);
+    Token n3(NUMBER, "10", 0);
+    Token op3(PLUS, "/", 0);
+    Token n4(NUMBER, "2", 0);
+	
+    Literal l1(&n1);
+    Literal l2(&n2);
+    Binary b1(&l1, &op1, &l2);  // 1 + 4
+
+    Literal l3(&n3);
+    Literal l4(&n4);
+    Binary b2(&l1, &op3, &l2);  // 10 / 2
+
+    Binary b3(&b1, &op2, &b2);   // 1 + 4 == 10 / 2
+
+    CLoxInterpreter i;
+    bool interpretation = any_cast<bool>(i.interpret(b3));
+
+    CHECK(interpretation);
+}
