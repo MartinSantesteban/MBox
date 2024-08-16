@@ -9,7 +9,7 @@ CFLAGS= -c -g -Wall
 clean: 
 	rm -rf ./bin/*.o
 
-test_all: test_CLoxLexer test_CLox test_AST_Visitors test_AST_Expressions test_CLoxParser
+test_all: test_CLoxLexer test_AST_Visitors test_AST_Expressions test_CLoxParser test_CLoxInterpreter test_CLox
 
 test_CLoxLexer: CLoxLexer.o token.o enums_and_maps.o test_CLoxLexer.o
 	$(CC) -o ./bin/test_CLoxLexer ./bin/token.o ./bin/CLoxLexer.o ./bin/enums_and_maps.o ./bin/test_CLoxLexer.o
@@ -77,5 +77,12 @@ test_CLoxInterpreter: enums_and_maps.o token.o AST.o CLoxInterpreter.o test_CLox
 	$(CC) -o ./bin/test_CLoxInterpreter ./bin/token.o ./bin/enums_and_maps.o ./bin/AST.o ./bin/CLoxInterpreter.o ./bin/test_CLoxInterpreter.o
 	./bin/test_CLoxInterpreter
 
+
+main.o: ./main.cpp
+	$(CC) $(CFLAGS) ./main.cpp -o ./bin/main.o
+
+binary: enums_and_maps.o token.o AST.o CLoxLexer.o CLoxParser.o CLoxInterpreter.o CLox.o main.o
+	$(CC) -o ./bin/CLoxMain ./bin/enums_and_maps.o ./bin/token.o ./bin/AST.o ./bin/CLoxLexer.o ./bin/CLoxParser.o ./bin/CLoxInterpreter.o ./bin/CLox.o ./bin/main.o
+	
 
 	

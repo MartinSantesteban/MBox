@@ -12,6 +12,7 @@ class Expr{
     public:
         virtual string accept(Visitor& v) = 0;
         virtual any accept(CLoxInterpreter& v) = 0;
+        virtual ~Expr() = default;
         bool operator ==(Expr& e);
         bool operator !=(Expr& e);
     private: 

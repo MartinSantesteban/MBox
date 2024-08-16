@@ -8,6 +8,7 @@
 
 #include "./CLoxLexer.h"
 #include "./CLoxParser.h"
+#include "./CLoxInterpreter.h"
 
 
 class CLox {

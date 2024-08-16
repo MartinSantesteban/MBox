@@ -186,9 +186,9 @@ TEST_CASE("Testing: Correct interpretation of Binary expression. -- +, -, *, / "
 }
 
 TEST_CASE("Testing: Correct interpretation of Binary expression. -- string concatenation +"){
-    Token t1(STRING, "foo", 0);
+    Token t1(STRING, "\"foo\"", 0);
     Token op1(PLUS, "+", 0);
-    Token t2(STRING, "bar", 0);
+    Token t2(STRING, "\"bar\"", 0);
 	
     Literal l1(&t1);
     Literal l2(&t2);
@@ -197,7 +197,7 @@ TEST_CASE("Testing: Correct interpretation of Binary expression. -- string conca
     CLoxInterpreter i;
     string interpretation1 = any_cast<string>(i.interpret(b1));
 
-    CHECK(interpretation1 == "foobar");
+    CHECK(interpretation1 == "\"foobar\"");
 }
 
 TEST_CASE("Testing: Correct interpretation of Binary expression. -- == , !="){

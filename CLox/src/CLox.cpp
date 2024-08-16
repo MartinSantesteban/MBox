@@ -1,11 +1,11 @@
 #include "./CLox.h"
 
 int CLox::scan(int argc, const char *args[]){
-	if(argc > 1){
+	if(argc > 2){
 		cout << "USAGE: clox <path of lox sourcefile>" << endl; 
 		return -1;
-	}else if(argc == 1){
-		return runFile(args[0]);
+	}else if(argc == 2){
+		return runFile(args[1]);
 	}else{
 		return runPrompt();
 	}
@@ -36,15 +36,17 @@ int CLox::runFile(const char *filepath){
 int CLox::runPrompt(){
 	//REPL = Read line of Input - Evaluate - Print - Loop
 	string input; 
+	cout << "--------------- CLox REPL ---------------" << endl;
 	while(true){
 		cout << ">> " ;
-		cin >> input;
-		run(input);
-		cout << endl;
+		string input;
+		getline(cin, input);
 		if(input == ":q" ){
 			cout << "Exiting clox" << endl;
 			break;
 		}
+		run(input);
+		cout << endl;
 		hadError = false;
 	}
 	return 0;
@@ -53,8 +55,12 @@ int CLox::runPrompt(){
 void CLox::run(string src){
 	CLoxLexer l(src);
 	vector<Token> tokens = l.scan();
+	cout << endl;
 	CLoxParser p(tokens);
 	Expr* ast = p.parse();
+	CLoxInterpreter i;
+	cout << "Result of execution: ";
+	i.printFormatedInterpretation(*ast);
 }
 
 

@@ -80,6 +80,10 @@ TEST_CASE("Testing: Correct tokenization of literals"){
 	lex = CLoxLexer("\"0\"");
 	CHECK(lex.scan() == vector<Token>(1,{Token(STRING, "\"0\"", 0)}));
 
+	lex = CLoxLexer("\"Hola!\"");
+	CHECK(lex.scan() == vector<Token>(1,{Token(STRING, "\"Hola!\"", 0)}));
+
+
 	lex = CLoxLexer("0");
 	CHECK(lex.scan() == vector<Token>(1,{Token(NUMBER, "0", 0)}));
 	

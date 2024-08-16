@@ -11,6 +11,6 @@ const string tokenTypeString[] = {
 	"AND", "CLASS", "ELSE", "FALSE", "FUN", "FOR", "IF", "NIL", "OR", "PRINT", "RETURN", "SUPER", "THIS", "TRUE", "VAR", "WHILE", "END_OF_LINE"
 };
 
-const map<string,tokenType> keywords = {{"and", AND},{"class", CLASS},{"else", ELSE},{"false", FALSE},{"fun", FUN},{"for", FOR},{"if", IF},
-								  {"nil", NIL},{"or", OR},{"print", PRINT},{"return", RETURN},{"super", SUPER},{"this", THIS},{"tre", TRUE},{"var", VAR},{"while", WHILE}};
+const map<string,tokenType> keywords = {{"and", AND},{"class", CLASS},{"else", ELSE},{"False", FALSE},{"fun", FUN},{"for", FOR},{"if", IF},
+								  {"nil", NIL},{"or", OR},{"print", PRINT},{"return", RETURN},{"super", SUPER},{"this", THIS},{"True", TRUE},{"var", VAR},{"while", WHILE}};
 

@@ -11,6 +11,7 @@ class Unary;
 
 class CLoxInterpreter{
 public:      
+       void printFormatedInterpretation(Expr& e);
        any interpret(Expr& e);
        any interpretBinary(Binary& e);
        any interpretGrouping(Grouping& e);

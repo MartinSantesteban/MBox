@@ -37,6 +37,13 @@ bool operands_are_of_type(any left_value, any right_value){
     return right_value.type() == typeid(T) && left_value.type() == typeid(T);
 }
 
+void CLoxInterpreter::printFormatedInterpretation(Expr& e){
+    any res = this->interpret(e);
+    if(res.type() == typeid(bool)) cout << ((any_cast<bool>(res) == 1)? "True" : "False") << endl;
+    if(res.type() == typeid(double)) cout << any_cast<double>(res) << endl;
+    if(res.type() == typeid(string)) cout << any_cast<string>(res) << endl;
+}
+
 any CLoxInterpreter::interpret(Expr& e){
     return e.accept(*this);
 };
@@ -63,7 +70,8 @@ any CLoxInterpreter::interpretBinary(Binary& e){
     if(operands_are_of_type<string>(left_value, right_value)){
         string right_string = any_cast<string>(right_value);
         string left_string = any_cast<string>(left_value);
-        res = left_string + right_string;
+        left_string.pop_back();
+        res = left_string + right_string.erase(0,1);
         return res;
     }
     //should be unreachable
