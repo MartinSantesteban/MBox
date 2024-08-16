@@ -17,7 +17,7 @@ bool test_parsing(vector<Token>& vt,Expr& e){
     Printer p;
     CLoxParser p1(vt);
     Expr* res = p1.parse();
-    cout << p.visit(*res) << endl;
+    //cout << p.visit(*res) << endl;
     return (e == *res);
 }
 

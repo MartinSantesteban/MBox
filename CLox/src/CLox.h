@@ -1,11 +1,6 @@
 #ifndef CLOX_H
 #define CLOX_H
 
-#include<iostream>
-#include<cstdlib>
-#include<sstream>
-#include<fstream>
-
 #include "./CLoxLexer.h"
 #include "./CLoxParser.h"
 #include "./CLoxInterpreter.h"
@@ -22,7 +17,7 @@ class CLox {
 		int runPrompt();
 		void run(string src);
 		string report(int line, string where, string message);
-		bool hadError = false;
+		bool had_error = false;
 };
 
 #endif

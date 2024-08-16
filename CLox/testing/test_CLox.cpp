@@ -7,10 +7,7 @@ TEST_CASE("Testing: Lexer using valid/invalid parameters") {
 	const char* p0 = "CLoxMain (nombre del ejecutable)";
 	const char* p1 = "testing/testing_code/prueba_input_lexer";
 	const char* p2 = "otra cosa";
-	cout << "aca" << endl;
-	//const char* parameters0[] = {};	No puedo hacer tdd sobre el repl todavia
-    //CHECK(cl.scan(sizeof(parameters0)/sizeof(parameters0[0]) ,parameters0) == 0);
-	
+
 	const char* parameters1[] = {p0,p1};
     CHECK(cl.scan(sizeof(parameters1)/sizeof(parameters1[1]) ,parameters1) == 0);
 	const char* parameters2[] = {p0,p1,p2};

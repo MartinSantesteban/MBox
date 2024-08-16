@@ -63,22 +63,6 @@ TEST_CASE("Testing: Correct interpretation of Unary expression. -- BANG"){
     CHECK(!interpretation);
 }
 
-TEST_CASE("Testing: Correct interpretation of Unary expression. -- BANG"){
-    Token t(FALSE, "False", 0);
-    Token op(BANG, "!", 0);
-	Literal l(&t);
-    Unary u(&op, &l);
-    CLoxInterpreter i;
-    bool interpretation = any_cast<bool>(i.interpret(u));
-    CHECK(interpretation);
-
-    Token t2(TRUE, "False", 0);
-    Literal l2(&t2);
-    Unary u2(&op, &l2);
-    interpretation = any_cast<bool>(i.interpret(u2));
-    CHECK(!interpretation);
-}
-
 TEST_CASE("Testing: Interpreter throws error when expression value does not support BANG operator"){
     Token t(NUMBER, "5", 1);
     Token op(BANG, "!", 1);

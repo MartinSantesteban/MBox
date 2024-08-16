@@ -12,7 +12,7 @@ int CLox::scan(int argc, const char *args[]){
 }		
 
 bool CLox::codeHadError(){
-	return hadError;
+	return had_error;
 }
 
 string CLox::error(int line, string message){ // este se volvio public solo para poder testear
@@ -29,7 +29,7 @@ int CLox::runFile(const char *filepath){
 	stringstream strStream;
 	strStream << o.rdbuf();
 	run(strStream.str());
-	if(hadError) return -1;
+	if(had_error) return -1;
 	return 0;
 }
 
@@ -47,7 +47,7 @@ int CLox::runPrompt(){
 		}
 		run(input);
 		cout << endl;
-		hadError = false;
+		had_error = false;
 	}
 	return 0;
 }
@@ -67,7 +67,7 @@ void CLox::run(string src){
 string CLox::report(int line, string where, string message){
 	string res = "[line " + to_string(line) + "] Error" + where + ": " + message;
 	cout << res << endl;
-	this->hadError = true;
+	this->had_error = true;
 	return res;
 }
 

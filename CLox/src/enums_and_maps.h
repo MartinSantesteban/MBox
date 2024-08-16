@@ -7,6 +7,11 @@
 #include<typeinfo>
 #include<any>
 #include<functional>
+#include <stdexcept>
+#include<iostream>
+#include<cstdlib>
+#include<sstream>
+#include<fstream>
 
 using namespace std;
 

@@ -18,9 +18,9 @@ class CLoxLexer {
 
 		bool isAtEnd();
 		void scanToken();
-		void add_token(int start, int end, tokenType t);
-		int scan_number();
-		void scan_keyword();
+		void addToken(int start, int end, tokenType t);
+		int scanNumber();
+		void scanKeyword();
 };
 
 #endif
