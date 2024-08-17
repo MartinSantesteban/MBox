@@ -3,21 +3,29 @@
 
 #include "AST.h"
 
-class Statement{
+class Stmt{
     public:
-        virtual ~Statement() = default;
+        virtual ~Stmt() = default;
+        bool operator==(Stmt& right);
+        bool operator!=(Stmt& right);
+    private:
+        virtual bool _equals(Stmt& s) = 0;
 };
 
-class ExprStatement : public Statement{
+class ExprStmt : public Stmt{
     public:
-        ExprStatement(Expr* e);
-        Expr* expression;
+        ExprStmt(Expr* e);
+        Expr* expr;
+    private:
+        bool _equals(Stmt& s);
 };
 
-class PrintStatement : public Statement{
+class PrintStmt : public Stmt{
     public:
-        PrintStatement(Expr* e);
-        Expr* print_expression;
+        PrintStmt(Expr* e);
+        Expr* print_expr;
+    private:
+        bool _equals(Stmt& s);
 };
 
 #endif

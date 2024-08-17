@@ -6,6 +6,7 @@ CLoxParser::CLoxParser(vector<Token> t){
     this->current = 0;
     this->expr_pointers = vector<Expr*>();
     this->token_pointers = vector<Token*>();
+    this->stmt_pointers = vector<Stmt*>();
 }
 
 bool CLoxParser::match(tokenType tt){
@@ -39,7 +40,7 @@ Expr* CLoxParser::BinaryPositiveClossure(CLoxParser* parser, Expr* (CLoxParser::
     return right;
 }
 
-Expr* CLoxParser::parse(){
+Expr* CLoxParser::parseExpression(){
     Expr* res = expression();
     if(match(R_PAREN)) throw invalid_argument("CLoxParser :: line " + to_string(this->tokens[current].line) + " -- Left parenthesis expected.");
     return res;
@@ -102,11 +103,56 @@ Expr* CLoxParser::primary(){
     throw invalid_argument("CLoxParser :: line " + to_string(this->tokens[current].line) + " -- Invalid token encountered.");
 }
 
+// STATEMENTS
+
+vector<Stmt*> CLoxParser::parseProgram(){
+    vector<Stmt*> res = vector<Stmt*>();
+    while(current < this->tokens.size()){
+        res.push_back(this->parseStmt());
+    }
+    return res;
+}
+
+Stmt* CLoxParser::parseStmt(){
+    Stmt* res = statement();
+    return res;
+}
+
+Stmt* CLoxParser::statement(){
+    if(match(PRINT)) return printStmt();
+    return exprStmt();
+}
+
+Stmt* CLoxParser::exprStmt(){
+    Expr* expr_ptr = parseExpression();
+    if(!match(SEMICOLON)) throw invalid_argument("CLoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Semicolon expected.");
+    current++;
+    Stmt* es_ptr = new ExprStmt(expr_ptr);
+    this->stmt_pointers.push_back(es_ptr);
+    return es_ptr;
+}
+
+Stmt* CLoxParser::printStmt(){
+    if(match(PRINT)){
+        current++;
+        Expr* print_expr_ptr = parseExpression(); // deberiamos poner exprStmt?
+        if(!match(SEMICOLON)) throw invalid_argument("CLoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Semicolon expected.");
+        current++;
+        Stmt* ps_ptr = new PrintStmt(print_expr_ptr);
+        this->stmt_pointers.push_back(ps_ptr);
+        return ps_ptr;
+    }
+    throw invalid_argument("CLoxParser :: line " + to_string(this->tokens[current].line) + " -- Invalid token encountered.");
+}
+
 CLoxParser::~CLoxParser(){
     for(auto &ptr : this->expr_pointers){
         delete ptr;
     }
     for(auto &ptr : this->token_pointers){
+        delete ptr;
+    }
+    for(auto &ptr : this->stmt_pointers){
         delete ptr;
     }
 }

@@ -1,9 +1,29 @@
 #include "SST.h"
 
-ExprStatement::ExprStatement(Expr* e){
-    this->expression = e;
+bool Stmt::operator ==(Stmt& right){
+    return this->_equals(right);
 }
 
-PrintStatement::PrintStatement(Expr* e){
-    this->print_expression = e;
+bool Stmt::operator !=(Stmt& right){
+    return !(this->_equals(right));
+}
+
+ExprStmt::ExprStmt(Expr* e){
+    this->expr = e;
+}
+
+bool ExprStmt::_equals(Stmt& s){
+    if(typeid(*this) != typeid(s)) return false;
+    ExprStmt& e = static_cast<ExprStmt&>(s);
+    return *(this->expr) == *(e.expr);
+}
+
+PrintStmt::PrintStmt(Expr* e){
+    this->print_expr = e;
+}
+
+bool PrintStmt::_equals(Stmt& s){
+    if(typeid(*this) != typeid(s)) return false;
+    PrintStmt& ps = static_cast<PrintStmt &>(s);
+    return *(this->print_expr) == *(ps.print_expr);
 }

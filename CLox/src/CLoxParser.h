@@ -1,15 +1,19 @@
 #ifndef CLOX_PARSER_H
 #define CLOX_PARSER_H
 
-#include "./AST.h"
-#include "./token.h"
 #include "./enums_and_maps.h"
+#include "./token.h"
+#include "./AST.h"
+#include "./SST.h"
+
 
 class CLoxParser{
     public:
         CLoxParser(vector<Token> t);
         ~CLoxParser();
-        Expr* parse();
+        Expr* parseExpression();
+        Stmt* parseStmt();
+        vector<Stmt*> parseProgram();
     private:
         
         Expr* expression();
@@ -19,6 +23,10 @@ class CLoxParser{
         Expr* factor();
         Expr* unary();
         Expr* primary();
+
+        Stmt* statement();
+        Stmt* printStmt();
+        Stmt* exprStmt();
         
         bool match(tokenType t);
         bool match(vector<tokenType> vt);
@@ -28,6 +36,7 @@ class CLoxParser{
         vector<Token> tokens;
         vector<Expr*> expr_pointers;
         vector<Token*> token_pointers;
+        vector<Stmt*> stmt_pointers;
         unsigned int current;
         
 };      

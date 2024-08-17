@@ -16,16 +16,16 @@ test_CLoxLexer: CLoxLexer.o token.o enums_and_maps.o test_CLoxLexer.o
 	$(CC) -o ./bin/test_CLoxLexer ./bin/token.o ./bin/CLoxLexer.o ./bin/enums_and_maps.o ./bin/test_CLoxLexer.o
 	./bin/test_CLoxLexer
 
-test_CLoxParser_Expressions: CLoxParser.o token.o enums_and_maps.o test_CLoxParser_Expressions.o AST.o visitor.o CLoxInterpreter.o
-	$(CC) -o ./bin/test_CLoxParser_Expressions ./bin/AST.o ./bin/visitor.o ./bin/CLoxParser.o ./bin/token.o ./bin/enums_and_maps.o ./bin/test_CLoxParser_Expressions.o ./bin/CLoxInterpreter.o
+test_CLoxParser_Expressions: CLoxParser.o token.o enums_and_maps.o test_CLoxParser_Expressions.o AST.o SST.o visitor.o CLoxInterpreter.o
+	$(CC) -o ./bin/test_CLoxParser_Expressions ./bin/AST.o ./bin/visitor.o ./bin/CLoxParser.o ./bin/token.o ./bin/enums_and_maps.o ./bin/test_CLoxParser_Expressions.o ./bin/CLoxInterpreter.o ./bin/SST.o
 	./bin/test_CLoxParser_Expressions
 
 test_CLoxInterpreter: enums_and_maps.o token.o AST.o CLoxInterpreter.o test_CLoxInterpreter.o
 	$(CC) -o ./bin/test_CLoxInterpreter ./bin/token.o ./bin/enums_and_maps.o ./bin/AST.o ./bin/CLoxInterpreter.o ./bin/test_CLoxInterpreter.o
 	./bin/test_CLoxInterpreter
 
-test_CLox: CLoxLexer.o token.o enums_and_maps.o CLox.o test_CLox.o AST.o CLoxParser.o CLoxInterpreter.o
-	$(CC) -o ./bin/test_CLox  ./bin/test_CLox.o ./bin/token.o ./bin/CLoxLexer.o ./bin/enums_and_maps.o ./bin/CLox.o ./bin/CLoxParser.o ./bin/AST.o ./bin/CLoxInterpreter.o
+test_CLox: CLoxLexer.o token.o enums_and_maps.o CLox.o test_CLox.o AST.o SST.o CLoxParser.o CLoxInterpreter.o
+	$(CC) -o ./bin/test_CLox  ./bin/test_CLox.o ./bin/token.o ./bin/CLoxLexer.o ./bin/enums_and_maps.o ./bin/CLox.o ./bin/CLoxParser.o ./bin/AST.o ./bin/CLoxInterpreter.o ./bin/SST.o
 	./bin/test_CLox
 
 test_AST_Expressions: test_AST_Expressions.o AST.o visitor.o token.o enums_and_maps.o CLoxInterpreter.o
@@ -36,8 +36,8 @@ test_AST_Visitors: test_AST_Visitors.o AST.o visitor.o token.o enums_and_maps.o 
 	$(CC) -o ./bin/test_AST_Visitors ./bin/test_AST_Visitors.o ./bin/AST.o ./bin/visitor.o ./bin/token.o ./bin/enums_and_maps.o ./bin/CLoxInterpreter.o
 	./bin/test_AST_Visitors
 
-test_CLoxParser_Statements: test_CLoxParser_Statements.o SST.o token.o enums_and_maps.o AST.o CLoxInterpreter.o CLoxParser.o
-	$(CC) -o ./bin/test_CLoxParser_Statements ./bin/SST.o ./bin/AST.o ./bin/token.o ./bin/enums_and_maps.o ./bin/test_CLoxParser_Statements.o ./bin/CLoxInterpreter.o ./bin/CLoxParser.o
+test_CLoxParser_Statements: test_CLoxParser_Statements.o SST.o token.o enums_and_maps.o AST.o CLoxInterpreter.o CLoxParser.o visitor.o
+	$(CC) -o ./bin/test_CLoxParser_Statements ./bin/SST.o ./bin/AST.o ./bin/token.o ./bin/enums_and_maps.o ./bin/test_CLoxParser_Statements.o ./bin/CLoxInterpreter.o ./bin/CLoxParser.o ./bin/visitor.o
 	./bin/test_CLoxParser_Statements
 
 binary: enums_and_maps.o token.o AST.o CLoxLexer.o CLoxParser.o CLoxInterpreter.o CLox.o main.o

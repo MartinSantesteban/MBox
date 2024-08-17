@@ -10,14 +10,14 @@ bool test_literal(Token& t){
     tokens.push_back(t);
     CLoxParser p1(tokens);
     Literal l(&t);
-    Expr* res = p1.parse();
+    Expr* res = p1.parseExpression();
     return (l == *res);
 }
 
 bool test_parsing(vector<Token>& vt,Expr& e){
     Printer p;
     CLoxParser p1(vt);
-    Expr* res = p1.parse();
+    Expr* res = p1.parseExpression();
     //cout << p.visit(*res) << endl;
     return (e == *res);
 }
