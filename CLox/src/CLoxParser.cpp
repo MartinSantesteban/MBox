@@ -60,12 +60,12 @@ Expr* CLoxParser::comparison(){
 }
 
 Expr* CLoxParser::term(){
-    vector<tokenType> term_operators = {PLUS, MINUS};
+    vector<tokenType> term_operators = {PLUS, MINUS, OR};
     return BinaryPositiveClossure(this, &CLoxParser::factor, term_operators);
 }
 
 Expr* CLoxParser::factor(){
-    vector<tokenType> factor_operators = {STAR, SLASH};
+    vector<tokenType> factor_operators = {STAR, SLASH, AND};
     return BinaryPositiveClossure(this, &CLoxParser::unary, factor_operators);
 }
 

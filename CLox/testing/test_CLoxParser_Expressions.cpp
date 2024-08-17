@@ -1,5 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
+
 #include "../src/CLoxParser.h"
 #include "../src/visitor.h"
 #include "../src/AST.h"
@@ -57,6 +58,7 @@ bool test_binary_positive_parsing(Token& op1, Token& op2){
 
     return test_parsing(tokens, b2);
 }
+
 TEST_CASE("Correct parsing of literal expression. -- NUMBER"){
     Token t(NUMBER, "7", 0);
     CHECK(test_literal(t));
@@ -175,6 +177,16 @@ TEST_CASE("Correct parsing of factor expression. -- (EQUAL_EQUAL | BANG_EQUAL)*"
     Token op1(EQUAL_EQUAL, "==", 0);
     Token op2(BANG_EQUAL, "!=", 0);
     CHECK(test_binary_positive_parsing(op1, op2));
+}
+
+TEST_CASE("Correct parsing of binary expression. -- AND"){
+    Token op(AND, "and", 0);
+    CHECK(test_binary_parsing(op));
+}
+
+TEST_CASE("Correct parsing of binary expression. -- OR"){
+    Token op(OR, "or", 0);
+    CHECK(test_binary_parsing(op));
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- (expr)"){

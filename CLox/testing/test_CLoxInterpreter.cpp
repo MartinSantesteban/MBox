@@ -139,7 +139,7 @@ TEST_CASE("Testing: Correct interpretation of Binary expression. -- <, <= , >, >
     CHECK(interpretation4);
 }
 
-TEST_CASE("Testing: Correct interpretation of Binary expression. -- +, -, *, / "){
+TEST_CASE("Testing: Correct interpretation of Binary number expression. -- +, -, *, / "){
     Token t1(NUMBER, "5", 0);
     Token t2(NUMBER, "2", 0);
 	
@@ -168,6 +168,37 @@ TEST_CASE("Testing: Correct interpretation of Binary expression. -- +, -, *, / "
     CHECK(interpretation3 == 10);
     CHECK(interpretation4 == 2.5);
 }
+
+
+TEST_CASE("Testing: Correct interpretation of Binary boolean expression. -- and, or"){
+    Token t1(TRUE, "True", 0);
+    Token t2(FALSE, "False", 0);
+	
+    Literal l1(&t1);
+    Literal l2(&t2);
+
+    Token op1(AND, "and", 0);
+    Token op2(OR, "or", 0);
+    
+    Binary b1(&l1, &op1, &l2);
+    Binary b2(&l1, &op2, &l2);
+    Binary b3(&l1, &op1, &l1);
+    Binary b4(&l2, &op2, &l2);
+     
+    CLoxInterpreter i;
+
+    bool interpretation1 = any_cast<bool>(i.interpret(b1));
+    bool interpretation2 = any_cast<bool>(i.interpret(b2));
+    bool interpretation3 = any_cast<bool>(i.interpret(b3));
+    bool interpretation4 = any_cast<bool>(i.interpret(b4));
+
+    CHECK(!interpretation1);
+    CHECK(interpretation2);
+    CHECK(interpretation3);
+    CHECK(!interpretation4);
+}
+
+
 
 TEST_CASE("Testing: Correct interpretation of Binary expression. -- string concatenation +"){
     Token t1(STRING, "\"foo\"", 0);

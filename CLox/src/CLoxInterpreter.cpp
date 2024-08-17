@@ -15,6 +15,10 @@ map<tokenType, function<any(double, double)>> binaryDoubleClosures = {{LESS,    
                                                                 {STAR,          [](double left, double right){return left * right;}},
                                                                 {SLASH,         [](double left, double right){return left / right;}}};
 
+map<tokenType, function<any(bool, bool)>> binaryBooleanClosures = {{AND, [](bool left, bool right){return left && right;}},
+                                                                   {OR, [](bool left, bool right){return left || right;}}};
+
+
 template <typename T>
 bool any_equality(any left_value, any right_value){
     T left_T = any_cast<T>(left_value);
@@ -22,13 +26,12 @@ bool any_equality(any left_value, any right_value){
     return left_T == right_T;
 }
 
-template <typename A,typename B, typename C>
 bool equality(any left_value, any right_value, tokenType equality_op){
     bool res;
     if(right_value.type() != left_value.type()) res = false;
-    if(right_value.type() == typeid(A)) res = any_equality<A>(left_value, right_value);
-    if(right_value.type() == typeid(B)) res = any_equality<B>(left_value, right_value);
-    if(right_value.type() == typeid(C)) res = any_equality<C>(left_value, right_value);
+    if(right_value.type() == typeid(bool)) res = any_equality<bool>(left_value, right_value);
+    if(right_value.type() == typeid(double)) res = any_equality<double>(left_value, right_value);
+    if(right_value.type() == typeid(string)) res = any_equality<string>(left_value, right_value);
     return (equality_op == EQUAL_EQUAL)? res : !res;
 }
 
@@ -39,7 +42,7 @@ bool operands_are_of_type(any left_value, any right_value){
 
 void CLoxInterpreter::printFormatedInterpretation(Expr& e){
     any res = this->interpret(e);
-    if(res.type() == typeid(bool)) cout << ((any_cast<bool>(res) == 1)? "True" : "False") << endl;
+    if(res.type() == typeid(bool))   cout << ((any_cast<bool>(res) == 1)? "True" : "False") << endl;
     if(res.type() == typeid(double)) cout << any_cast<double>(res) << endl;
     if(res.type() == typeid(string)) cout << any_cast<string>(res) << endl;
 }
@@ -58,13 +61,19 @@ any CLoxInterpreter::interpretBinary(Binary& e){
     tokenType op_tt = (*e.op).token_type;
     any res;
     if(op_tt == EQUAL_EQUAL || op_tt == BANG_EQUAL){
-        res = (equality<string, bool, double>(left_value, right_value, op_tt));
+        res = (equality(left_value, right_value, op_tt));
         return res;
     }
     if(operands_are_of_type<double>(left_value, right_value)){
         double right_double = any_cast<double>(right_value);
         double left_double = any_cast<double>(left_value);    
         res = binaryDoubleClosures[op_tt](left_double, right_double);
+        return res;
+    }
+    if(operands_are_of_type<bool>(left_value, right_value)){
+        bool right_double = any_cast<bool>(right_value);
+        bool left_double = any_cast<bool>(left_value);    
+        res = binaryBooleanClosures[op_tt](left_double, right_double);
         return res;
     }
     if(operands_are_of_type<string>(left_value, right_value)){
