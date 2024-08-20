@@ -57,10 +57,10 @@ void CLox::run(string src){
 	vector<Token> tokens = l.scan();
 	cout << endl;
 	CLoxParser p(tokens);
-	Expr* ast = p.parseExpression();
+	vector<Stmt*> program_statements = p.parseProgram();
 	CLoxInterpreter i;
 	cout << "Result of execution: ";
-	i.printFormatedInterpretation(*ast);
+	i.interpretProgram(program_statements);
 }
 
 

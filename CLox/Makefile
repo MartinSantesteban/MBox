@@ -20,8 +20,8 @@ test_CLoxParser_Expressions: CLoxParser.o token.o enums_and_maps.o test_CLoxPars
 	$(CC) -o ./bin/test_CLoxParser_Expressions ./bin/AST.o ./bin/visitor.o ./bin/CLoxParser.o ./bin/token.o ./bin/enums_and_maps.o ./bin/test_CLoxParser_Expressions.o ./bin/CLoxInterpreter.o ./bin/SST.o
 	./bin/test_CLoxParser_Expressions
 
-test_CLoxInterpreter: enums_and_maps.o token.o AST.o CLoxInterpreter.o test_CLoxInterpreter.o
-	$(CC) -o ./bin/test_CLoxInterpreter ./bin/token.o ./bin/enums_and_maps.o ./bin/AST.o ./bin/CLoxInterpreter.o ./bin/test_CLoxInterpreter.o
+test_CLoxInterpreter: enums_and_maps.o token.o AST.o CLoxInterpreter.o test_CLoxInterpreter.o SST.o
+	$(CC) -o ./bin/test_CLoxInterpreter ./bin/token.o ./bin/enums_and_maps.o ./bin/AST.o ./bin/CLoxInterpreter.o ./bin/test_CLoxInterpreter.o ./bin/SST.o
 	./bin/test_CLoxInterpreter
 
 test_CLox: CLoxLexer.o token.o enums_and_maps.o CLox.o test_CLox.o AST.o SST.o CLoxParser.o CLoxInterpreter.o
@@ -40,8 +40,9 @@ test_CLoxParser_Statements: test_CLoxParser_Statements.o SST.o token.o enums_and
 	$(CC) -o ./bin/test_CLoxParser_Statements ./bin/SST.o ./bin/AST.o ./bin/token.o ./bin/enums_and_maps.o ./bin/test_CLoxParser_Statements.o ./bin/CLoxInterpreter.o ./bin/CLoxParser.o ./bin/visitor.o
 	./bin/test_CLoxParser_Statements
 
-binary: enums_and_maps.o token.o AST.o CLoxLexer.o CLoxParser.o CLoxInterpreter.o CLox.o main.o
-	$(CC) -o ./bin/CLoxMain ./bin/enums_and_maps.o ./bin/token.o ./bin/AST.o ./bin/CLoxLexer.o ./bin/CLoxParser.o ./bin/CLoxInterpreter.o ./bin/CLox.o ./bin/main.o
+binary: enums_and_maps.o token.o AST.o SST.o CLoxLexer.o CLoxParser.o CLoxInterpreter.o CLox.o main.o
+	$(CC) -o ./bin/CLoxMain ./bin/enums_and_maps.o ./bin/token.o ./bin/AST.o ./bin/CLoxLexer.o ./bin/CLoxParser.o ./bin/CLoxInterpreter.o ./bin/CLox.o ./bin/main.o ./bin/SST.o
+
 
 ######################################################################################################################################################
 

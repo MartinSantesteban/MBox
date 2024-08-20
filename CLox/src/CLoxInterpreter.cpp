@@ -111,3 +111,22 @@ any CLoxInterpreter::interpretUnary(Unary& e){
 };
 
 // STATEMENTS
+
+void CLoxInterpreter::interpretProgram(vector<Stmt*> vs){
+    for(Stmt* s: vs){
+        this->interpretStmt(*s);
+    } // ver CLox::run y ver si anda esto. makefile!
+}
+
+void CLoxInterpreter::interpretStmt(Stmt& s){
+    return s.accept(*this);
+}
+
+void CLoxInterpreter::interpretExprStmt(ExprStmt& es){
+    this->interpret(*es.expr);
+    return;
+}
+
+void CLoxInterpreter::interpretPrintStmt(PrintStmt& ps){
+    this->printFormatedInterpretation(*ps.print_expr);
+}

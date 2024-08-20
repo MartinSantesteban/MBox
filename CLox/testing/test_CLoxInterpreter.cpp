@@ -264,3 +264,22 @@ TEST_CASE("Testing: Correct interpretation of expression."){
 
     CHECK(interpretation);
 }
+
+// STATEMENTS
+
+TEST_CASE("Testing: Correct interpretation of PrintStatement."){
+    Token n1(NUMBER, "1", 0);
+    Token op1(PLUS, "+", 0);
+    Token n2(NUMBER, "4", 0);
+	
+    Literal l1(&n1);
+    Literal l2(&n2);
+    Binary b1(&l1, &op1, &l2);  
+
+    PrintStmt ps(&b1);
+
+    CLoxInterpreter i;
+    i.interpretStmt(ps);          // deberia printear 5
+
+    CHECK(true);
+}
