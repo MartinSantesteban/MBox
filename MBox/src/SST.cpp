@@ -18,7 +18,7 @@ bool ExprStmt::_equals(Stmt& s){
     return *(this->expr) == *(e.expr);
 }
 
-void ExprStmt::accept(CLoxInterpreter& ci){
+void ExprStmt::accept(MBoxInterpreter& ci){
     return ci.interpretExprStmt(*this);
 }
 
@@ -32,6 +32,6 @@ bool PrintStmt::_equals(Stmt& s){
     return *(this->print_expr) == *(ps.print_expr);
 }
 
-void PrintStmt::accept(CLoxInterpreter& ci){
+void PrintStmt::accept(MBoxInterpreter& ci){
     return ci.interpretPrintStmt(*this);
 }

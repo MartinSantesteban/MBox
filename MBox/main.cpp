@@ -1,6 +1,6 @@
-#include "./src/CLox.h"
+#include "./src/MBox.h"
 
 int main(int argc, const char** argv){
-	CLox cl;
+	MBox cl;
 	return cl.scan(argc, argv);
 }

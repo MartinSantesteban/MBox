@@ -1,12 +1,12 @@
-#ifndef CLOX_H
-#define CLOX_H
+#ifndef MBOX_H
+#define MBOX_H
 
-#include "./CLoxLexer.h"
-#include "./CLoxParser.h"
-#include "./CLoxInterpreter.h"
+#include "./MBoxLexer.h"
+#include "./MBoxParser.h"
+#include "./MBoxInterpreter.h"
 
 
-class CLox {
+class MBox {
 	public:
 		int scan(int argc, const char *args[]);		
 		bool codeHadError();

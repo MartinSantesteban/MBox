@@ -1,12 +1,12 @@
-#ifndef CLOX_LEXER_H
-#define CLOX_LEXER_H
+#ifndef MBox_LEXER_H
+#define MBox_LEXER_H
 
 #include "./enums_and_maps.h"
 #include "./token.h"
 
-class CLoxLexer {
+class MBoxLexer {
 	public:
-		CLoxLexer(string source);
+		MBoxLexer(string source);
 		vector<Token> scan();
 
 	private:

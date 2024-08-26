@@ -22,7 +22,7 @@ string Binary::accept(Visitor& v){
     return v.visitBinary(*this);
 }
 
-any Binary::accept(CLoxInterpreter& i){
+MBoxObject* Binary::accept(MBoxInterpreter& i){
     return i.interpretBinary(*this);
 }
 
@@ -42,7 +42,7 @@ string Grouping::accept(Visitor& v){
     return v.visitGrouping(*this);
 }
 
-any Grouping::accept(CLoxInterpreter& i){
+MBoxObject* Grouping::accept(MBoxInterpreter& i){
     return i.interpretGrouping(*this);
 }
 
@@ -60,7 +60,7 @@ string Literal::accept(Visitor& v){
     return v.visitLiteral(*this);
 }
 
-any Literal::accept(CLoxInterpreter& i){
+MBoxObject* Literal::accept(MBoxInterpreter& i){
     return i.interpretLiteral(*this);
 }
 
@@ -79,7 +79,7 @@ string Unary::accept(Visitor& v){
     return v.visitUnary(*this);
 }
 
-any Unary::accept(CLoxInterpreter& i){
+MBoxObject* Unary::accept(MBoxInterpreter& i){
     return i.interpretUnary(*this);
 }
 

@@ -1,8 +1,8 @@
-#include "./CLox.h"
+#include "./MBox.h"
 
-int CLox::scan(int argc, const char *args[]){
+int MBox::scan(int argc, const char *args[]){
 	if(argc > 2){
-		cout << "USAGE: clox <path of lox sourcefile>" << endl; 
+		cout << "USAGE: MBox <path of lox sourcefile>" << endl; 
 		return -1;
 	}else if(argc == 2){
 		return runFile(args[1]);
@@ -11,15 +11,15 @@ int CLox::scan(int argc, const char *args[]){
 	}
 }		
 
-bool CLox::codeHadError(){
+bool MBox::codeHadError(){
 	return had_error;
 }
 
-string CLox::error(int line, string message){ // este se volvio public solo para poder testear
+string MBox::error(int line, string message){ // este se volvio public solo para poder testear
 	return report(line, "", message);
 }
 
-int CLox::runFile(const char *filepath){
+int MBox::runFile(const char *filepath){
 	//auto *file = fopen(filepath, "r");
 	ifstream o(filepath);
 	if(o.fail()){
@@ -33,16 +33,16 @@ int CLox::runFile(const char *filepath){
 	return 0;
 }
 
-int CLox::runPrompt(){
+int MBox::runPrompt(){
 	//REPL = Read line of Input - Evaluate - Print - Loop
 	string input; 
-	cout << "--------------- CLox REPL ---------------" << endl;
+	cout << "--------------- MBox REPL ---------------" << endl;
 	while(true){
 		cout << ">> " ;
 		string input;
 		getline(cin, input);
 		if(input == ":q" ){
-			cout << "Exiting clox" << endl;
+			cout << "Exiting MBox" << endl;
 			break;
 		}
 		run(input);
@@ -52,19 +52,19 @@ int CLox::runPrompt(){
 	return 0;
 }
 
-void CLox::run(string src){
-	CLoxLexer l(src);
+void MBox::run(string src){
+	MBoxLexer l(src);
 	vector<Token> tokens = l.scan();
 	cout << endl;
-	CLoxParser p(tokens);
+	MBoxParser p(tokens);
 	vector<Stmt*> program_statements = p.parseProgram();
-	CLoxInterpreter i;
+	MBoxInterpreter i;
 	cout << "Result of execution: ";
 	i.interpretProgram(program_statements);
 }
 
 
-string CLox::report(int line, string where, string message){
+string MBox::report(int line, string where, string message){
 	string res = "[line " + to_string(line) + "] Error" + where + ": " + message;
 	cout << res << endl;
 	this->had_error = true;

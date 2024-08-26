@@ -1,14 +1,14 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-#include "../src/CLoxParser.h"
+#include "../src/MBoxParser.h"
 #include "../src/visitor.h"
 #include "../src/AST.h"
 
 bool test_literal(Token& t){
     vector<Token> tokens;
     tokens.push_back(t);
-    CLoxParser p1(tokens);
+    MBoxParser p1(tokens);
     Literal l(&t);
     Expr* res = p1.parseExpression();
     return (l == *res);
@@ -16,7 +16,7 @@ bool test_literal(Token& t){
 
 bool test_parsing(vector<Token>& vt,Expr& e){
     Printer p;
-    CLoxParser p1(vt);
+    MBoxParser p1(vt);
     Expr* res = p1.parseExpression();
     //cout << p.visit(*res) << endl;
     return (e == *res);
@@ -215,7 +215,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch missing R_PA
 
     Literal l(&t2);
     Grouping g(&l);
-    CHECK_THROWS_WITH(test_parsing(tokens, g), "CLoxParser :: line 0 -- Right parenthesis expected.");
+    CHECK_THROWS_WITH(test_parsing(tokens, g), "MBoxParser :: line 0 -- Right parenthesis expected.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch missing L_PAREN"){
@@ -228,7 +228,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch missing L_PA
 
     Literal l(&t2);
     Grouping g(&l);
-    CHECK_THROWS_WITH(test_parsing(tokens, g), "CLoxParser :: line 0 -- Left parenthesis expected.");
+    CHECK_THROWS_WITH(test_parsing(tokens, g), "MBoxParser :: line 0 -- Left parenthesis expected.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch missing L_PAREN"){
@@ -238,7 +238,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch missing L_PA
     tokens.push_back(t1);
 
     Literal l(&t1);
-    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser :: line 0 -- Left parenthesis expected.");
+    CHECK_THROWS_WITH(test_parsing(tokens, l), "MBoxParser :: line 0 -- Left parenthesis expected.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch single invalid token"){
@@ -248,7 +248,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch single inval
     tokens.push_back(t1);
 
     Literal l(&t1);
-    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser :: line 0 -- Invalid token encountered.");
+    CHECK_THROWS_WITH(test_parsing(tokens, l), "MBoxParser :: line 0 -- Invalid token encountered.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch invalid tokens"){
@@ -260,7 +260,7 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch invalid toke
     tokens.push_back(t2);
 
     Literal l(&t1);
-    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser :: line 0 -- Invalid token encountered.");
+    CHECK_THROWS_WITH(test_parsing(tokens, l), "MBoxParser :: line 0 -- Invalid token encountered.");
 }
 
 TEST_CASE("Correct parsing of literal grouping expression. -- catch dangling token after correct expression"){
@@ -276,6 +276,6 @@ TEST_CASE("Correct parsing of literal grouping expression. -- catch dangling tok
     tokens.push_back(t4);
 
     Literal l(&t1);
-    CHECK_THROWS_WITH(test_parsing(tokens, l), "CLoxParser :: line 0 -- Invalid token encountered.");
+    CHECK_THROWS_WITH(test_parsing(tokens, l), "MBoxParser :: line 0 -- Invalid token encountered.");
 }
 

@@ -1,11 +1,11 @@
-#include "./CLoxLexer.h"
+#include "./MBoxLexer.h"
 using namespace std;
 
-CLoxLexer::CLoxLexer(string source){
+MBoxLexer::MBoxLexer(string source){
 	src_code = source;
 }
 
-vector<Token> CLoxLexer::scan(){
+vector<Token> MBoxLexer::scan(){
 	while(!isAtEnd()){
 		start = current;
 		scanToken();
@@ -13,11 +13,11 @@ vector<Token> CLoxLexer::scan(){
 	return tokens;
 }
 
-bool CLoxLexer::isAtEnd(){
+bool MBoxLexer::isAtEnd(){
 	return current == src_code.size();
 }
 
-void CLoxLexer::scanToken(){
+void MBoxLexer::scanToken(){
 	char current_char = src_code[start];
 	char next_char = src_code[current+1]; 
 	switch(current_char){
@@ -102,7 +102,7 @@ void CLoxLexer::scanToken(){
 	return;
 }
 
-void CLoxLexer::addToken(int start, int end, tokenType t){
+void MBoxLexer::addToken(int start, int end, tokenType t){
 	string s = src_code.substr(start, end - start + 1);
 	if(t == END_OF_LINE) s = "/n"; 
 	//cout << Token(t,s,line) << endl;
@@ -110,7 +110,7 @@ void CLoxLexer::addToken(int start, int end, tokenType t){
 	current++;
 }
 
-int CLoxLexer::scanNumber(){
+int MBoxLexer::scanNumber(){
 	bool dotted = false;
 	while(current < src_code.size() && isdigit(src_code[current])) current++;
 	int len = current - start;
@@ -133,7 +133,7 @@ int CLoxLexer::scanNumber(){
 	return 0;
 }
 
-void CLoxLexer::scanKeyword(){
+void MBoxLexer::scanKeyword(){
 	// como ya scaneaste los numeros, nunca empezas chequeando por uno de ellos.
 	while(current < src_code.size() && (isalpha(src_code[current]) || isdigit(src_code[current]))) current++;
 	current--;

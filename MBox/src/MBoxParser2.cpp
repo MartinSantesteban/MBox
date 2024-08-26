@@ -5,29 +5,29 @@
 
 Printer p;
 
-CLoxParser::CLoxParser(vector<Token> t){
+MBoxParser::MBoxParser(vector<Token> t){
     this->tokens = t;
     this->current = 0;
     this->expr_pointers = vector<Expr*>();
     this->token_pointers = vector<Token*>();
 }
 
-bool CLoxParser::match(tokenType tt){
+bool MBoxParser::match(tokenType tt){
     return (current < tokens.size() && tokens[current].token_type == tt);
 }
 
-Expr* CLoxParser::parse(){
+Expr* MBoxParser::parse(){
     Expr* res = expression();
-    if(match(R_PAREN)) throw invalid_argument("CLoxParser -- Left parenthesis expected.");
+    if(match(R_PAREN)) throw invalid_argument("MBoxParser -- Left parenthesis expected.");
     return res;
 }
 
-Expr* CLoxParser::expression(){
+Expr* MBoxParser::expression(){
     Expr* res = equality();
     return res;
 }
 
-Expr* CLoxParser::equality(){
+Expr* MBoxParser::equality(){
     Expr* right = comparison();
     while(match(EQUAL_EQUAL) || match(BANG_EQUAL)){
         Token* cmp_token_ptr = new Token(this->tokens[current]);
@@ -40,7 +40,7 @@ Expr* CLoxParser::equality(){
     return right;
 }
 
-Expr* CLoxParser::comparison(){
+Expr* MBoxParser::comparison(){
     Expr* right = term();
     while(match(LESS) || match(LESS_EQUAL) || match(GREATER) || match(GREATER_EQUAL)){
         Token* cmp_token_ptr = new Token(this->tokens[current]);
@@ -53,7 +53,7 @@ Expr* CLoxParser::comparison(){
     return right;
 }
 
-Expr* CLoxParser::term(){
+Expr* MBoxParser::term(){
     Expr* right = factor();
     while(match(PLUS) || match(MINUS)){
         Token* term_token_ptr = new Token(this->tokens[current]);
@@ -66,7 +66,7 @@ Expr* CLoxParser::term(){
     return right;
 }
 
-Expr* CLoxParser::factor(){
+Expr* MBoxParser::factor(){
     Expr* right = unary();
     while(match(SLASH) || match(STAR)){
         Token* factor_token_ptr = new Token(this->tokens[current]);
@@ -79,7 +79,7 @@ Expr* CLoxParser::factor(){
     return right;
 }
 
-Expr* CLoxParser::unary(){
+Expr* MBoxParser::unary(){
     if(match(BANG) || match(MINUS)){
         Token* bang_token_ptr = new Token(this->tokens[current]);
         this->token_pointers.push_back(bang_token_ptr);
@@ -94,7 +94,7 @@ Expr* CLoxParser::unary(){
     }
 }
 
-Expr* CLoxParser::primary(){
+Expr* MBoxParser::primary(){
     if(match(NUMBER) || match(STRING) || match(TRUE) || match(FALSE) || match(NIL)){
         Token* token_ptr = new Token(this->tokens[current]);
         this->token_pointers.push_back(token_ptr);
@@ -111,16 +111,16 @@ Expr* CLoxParser::primary(){
         if(match(R_PAREN)){
             current++;
         }else{
-            throw invalid_argument("CLoxParser -- Right parenthesis expected.");        
+            throw invalid_argument("MBoxParser -- Right parenthesis expected.");        
         }
         return res;
     }
-    if(match(R_PAREN)) throw invalid_argument("CLoxParser -- Left parenthesis expected."); // este esta solo para que si te encontras un R_PAREN solo sea mas informativo el mensaje
-    throw invalid_argument("CLoxParser -- Invalid token type encountered.");
+    if(match(R_PAREN)) throw invalid_argument("MBoxParser -- Left parenthesis expected."); // este esta solo para que si te encontras un R_PAREN solo sea mas informativo el mensaje
+    throw invalid_argument("MBoxParser -- Invalid token type encountered.");
 }
 
 
-CLoxParser::~CLoxParser(){
+MBoxParser::~MBoxParser(){
     for(auto &ptr : this->expr_pointers){
         delete ptr;
     }

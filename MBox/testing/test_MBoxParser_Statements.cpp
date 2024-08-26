@@ -4,7 +4,7 @@
 #include "../src/SST.h"
 #include "../src/AST.h"
 #include "../src/token.h"
-#include "../src/CLoxParser.h"
+#include "../src/MBoxParser.h"
 
 TEST_CASE("Correct parsing of Print Statement."){
     vector<Token> tokens;
@@ -16,7 +16,7 @@ TEST_CASE("Correct parsing of Print Statement."){
     tokens.push_back(t2);
     tokens.push_back(t3);
 
-    CLoxParser p(tokens);
+    MBoxParser p(tokens);
 
     Literal l(&t2);    
     PrintStmt ps(&l);
@@ -33,12 +33,12 @@ TEST_CASE("Correct parsing of Print Statement. -- Missing semicolon throws an er
     tokens.push_back(t1);
     tokens.push_back(t2);
 
-    CLoxParser p(tokens);
+    MBoxParser p(tokens);
 
     Literal l(&t2);    
     PrintStmt ps(&l);
 
-    CHECK_THROWS_WITH(p.parseStmt(), "CLoxParser :: line 0 -- Semicolon expected.");
+    CHECK_THROWS_WITH(p.parseStmt(), "MBoxParser :: line 0 -- Semicolon expected.");
 }
 
 TEST_CASE("Correct parsing of Expr Statement."){
@@ -49,7 +49,7 @@ TEST_CASE("Correct parsing of Expr Statement."){
     tokens.push_back(t1);
     tokens.push_back(t2);
 
-    CLoxParser p(tokens);
+    MBoxParser p(tokens);
 
     Literal l(&t1);    
     ExprStmt ps(&l);
@@ -64,12 +64,12 @@ TEST_CASE("Correct parsing of Expr Statement. -- Missing semicolon throws an err
 
     tokens.push_back(t1);
 
-    CLoxParser p(tokens);
+    MBoxParser p(tokens);
 
     Literal l(&t1);    
     ExprStmt ps(&l);
 
-    CHECK_THROWS_WITH(p.parseStmt(), "CLoxParser :: line 0 -- Semicolon expected.");
+    CHECK_THROWS_WITH(p.parseStmt(), "MBoxParser :: line 0 -- Semicolon expected.");
 }
 
 TEST_CASE("Correct parsing of program."){
@@ -84,7 +84,7 @@ TEST_CASE("Correct parsing of program."){
 
     vector<Token> tokens = {t1, t2, t3, t4, t5, t6, t7, t8};
 
-    CLoxParser p(tokens);
+    MBoxParser p(tokens);
 
     Literal l1(&t2);    
     Literal l2(&t4);    

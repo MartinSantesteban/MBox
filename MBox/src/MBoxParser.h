@@ -1,5 +1,5 @@
-#ifndef CLOX_PARSER_H
-#define CLOX_PARSER_H
+#ifndef MBox_PARSER_H
+#define MBox_PARSER_H
 
 #include "./enums_and_maps.h"
 #include "./token.h"
@@ -7,10 +7,10 @@
 #include "./SST.h"
 
 
-class CLoxParser{
+class MBoxParser{
     public:
-        CLoxParser(vector<Token> t);
-        ~CLoxParser();
+        MBoxParser(vector<Token> t);
+        ~MBoxParser();
         Expr* parseExpression();
         Stmt* parseStmt();
         vector<Stmt*> parseProgram();
@@ -30,7 +30,7 @@ class CLoxParser{
         
         bool match(tokenType t);
         bool match(vector<tokenType> vt);
-        Expr* BinaryPositiveClossure(CLoxParser* parser, Expr* (CLoxParser::*expr_func)(), vector<tokenType> token_types);
+        Expr* BinaryPositiveClossure(MBoxParser* parser, Expr* (MBoxParser::*expr_func)(), vector<tokenType> token_types);
         Token* consumeToken();
 
         vector<Token> tokens;
