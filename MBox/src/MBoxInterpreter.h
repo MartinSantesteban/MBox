@@ -19,6 +19,7 @@ class MBoxObject;
 
 class MBoxInterpreter{
        public:      
+              ~MBoxInterpreter();
               void printFormatedInterpretation(Expr& e);
 
               MBoxObject* interpret(Expr& e);
@@ -32,7 +33,7 @@ class MBoxInterpreter{
               void interpretExprStmt(ExprStmt& es);
               void interpretPrintStmt(PrintStmt& ps);
        private:
-              vector<MBoxObject*> objects;
+              set<MBoxObject*> objects;
 };
 
 #endif

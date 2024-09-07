@@ -1,14 +1,43 @@
 #include "MBoxObject.h"
 
+// -------------------- MBoxObject -----------------------                           
+
+bool MBoxObject::operator==(MBoxObject& right){
+    return this->_equals(right);
+}
+
+bool MBoxObject::operator!=(MBoxObject& right){
+    return !(this->_equals(right));
+}
+
+bool MBoxObject::_equals(MBoxObject& right){
+    return typeid(*this) == typeid(right);
+}
+
+MBoxObject* MBoxObject::handleEq(MBoxObject* right){
+    if(*this == *right) return new MBoxBoolean(true);
+    return new MBoxBoolean(false);
+}
+
+MBoxObject* MBoxObject::handleNeq(MBoxObject* right){
+    if(*this != *right) return new MBoxBoolean(true);
+    return new MBoxBoolean(false);
+}
+
 // -------------------- MBoxNumber -----------------------                           
 
 MBoxNumber::MBoxNumber(double d){
     this->value = d;
 }
 
+string MBoxNumber::className(){
+    return "MBoxNumber";
+}
+
 MBoxObject* MBoxNumber::handleMinus(){
-    this->value = this->value * (-1);
-    return this;
+    //this->value *= -1;
+    //return this;
+    return new MBoxNumber(this->value * -1);
 }
 
 MBoxObject* MBoxNumber::handleLess(MBoxObject* right){
@@ -16,7 +45,7 @@ MBoxObject* MBoxNumber::handleLess(MBoxObject* right){
 }
 
 MBoxObject* MBoxNumber::isGreaterThanNumber(MBoxNumber* left){
-    return new MBoxBoolean(left->value < this->value);            // cambiar a que sea por referencia? this->value := ...
+    return new MBoxBoolean(left->value < this->value);            
 }
 
 MBoxObject* MBoxNumber::handleLessEq(MBoxObject* right){
@@ -67,10 +96,20 @@ MBoxObject* MBoxNumber::getDividedToNumber(MBoxNumber* left){
     return new MBoxNumber(left->value / this->value);
 }
 
+bool MBoxNumber::_equals(MBoxObject& right){
+    if(typeid(*this) != typeid(right)) return false;
+    auto right_number = static_cast<MBoxNumber &>(right);
+    return this->value == right_number.value;
+}
+
 // -------------------- MBoxString ----------------------
 
 MBoxString::MBoxString(string s){
     this->value = s;
+}
+
+string MBoxString::className(){
+    return "MBoxString";
 }
 
 MBoxObject* MBoxString::handlePlus(MBoxObject* right_object){
@@ -78,17 +117,39 @@ MBoxObject* MBoxString::handlePlus(MBoxObject* right_object){
 }
 
 MBoxObject* MBoxString::getAddedToString(MBoxString* left_string){
-    return new MBoxString(left_string->value + this->value);
+    string left = left_string->value;
+    left.erase(left.size()-1);
+    string right = this->value;
+    right.erase(0,1);
+    return new MBoxString(left + right);
+}
+
+bool MBoxString::_equals(MBoxObject& right){
+    if(typeid(*this) != typeid(right)) return false;
+    auto right_number = static_cast<MBoxString &>(right);
+    return this->value == right_number.value;
 }
 
 // -------------------- MBoxNil -------------------------
 
 MBoxNil::MBoxNil(){}
 
+string MBoxNil::className(){
+    return "MBoxNil";
+}
+
+bool MBoxNil::_equals(MBoxObject& right){
+    return false;
+}
+
 // -------------------- MBoxBoolean ------------------------
 
 MBoxBoolean::MBoxBoolean(bool b){
     this->value = b;
+}
+
+string MBoxBoolean::className(){
+    return "MBoxBoolean";
 }
 
 MBoxObject* MBoxBoolean::handleBang(){
@@ -109,4 +170,10 @@ MBoxObject* MBoxBoolean::handleOr(MBoxObject* right_object){
 
 MBoxObject* MBoxBoolean::orBoolean(MBoxBoolean* left_bool){
     return new MBoxBoolean(left_bool->value || this->value);
+}
+
+bool MBoxBoolean::_equals(MBoxObject& right){
+    if(typeid(*this) != typeid(right)) return false;
+    auto right_number = static_cast<MBoxBoolean &>(right);
+    return this->value == right_number.value;
 }
