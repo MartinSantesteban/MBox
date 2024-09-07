@@ -24,6 +24,10 @@ MBoxObject* MBoxObject::handleNeq(MBoxObject* right){
     return new MBoxBoolean(false);
 }
 
+void MBoxObject::print(){
+    cout << "[" << this->className() << "]" << endl;
+}
+
 // -------------------- MBoxNumber -----------------------                           
 
 MBoxNumber::MBoxNumber(double d){
@@ -32,6 +36,10 @@ MBoxNumber::MBoxNumber(double d){
 
 string MBoxNumber::className(){
     return "MBoxNumber";
+}
+
+void MBoxNumber::print(){
+    cout << "[" << this->className() << " " << this->value << "]";
 }
 
 MBoxObject* MBoxNumber::handleMinus(){
@@ -108,6 +116,10 @@ MBoxString::MBoxString(string s){
     this->value = s;
 }
 
+void MBoxString::print(){
+    cout << "[" << this->className() << " " << this->value << "]";
+}
+
 string MBoxString::className(){
     return "MBoxString";
 }
@@ -138,6 +150,10 @@ string MBoxNil::className(){
     return "MBoxNil";
 }
 
+void MBoxNil::print(){
+    cout << "[" << this->className() << "]";
+}
+
 bool MBoxNil::_equals(MBoxObject& right){
     return false;
 }
@@ -150,6 +166,11 @@ MBoxBoolean::MBoxBoolean(bool b){
 
 string MBoxBoolean::className(){
     return "MBoxBoolean";
+}
+
+void MBoxBoolean::print(){
+    string p_string = (this->value)? "True" : "False";
+    cout << "[" << this->className() << " " << p_string << "]";
 }
 
 MBoxObject* MBoxBoolean::handleBang(){

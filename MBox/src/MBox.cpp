@@ -45,7 +45,11 @@ int MBox::runPrompt(){
 			cout << "Exiting MBox" << endl;
 			break;
 		}
-		run(input);
+		try{
+			run(input);
+		}catch(invalid_argument &exc){
+			cout << exc.what() << endl;
+		}
 		cout << endl;
 		had_error = false;
 	}

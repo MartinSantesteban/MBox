@@ -25,7 +25,7 @@ map<tokenType, function<MBoxObject*(MBoxObject* left, MBoxObject* right)>>  bina
 
 void MBoxInterpreter::printFormatedInterpretation(Expr& e){
     MBoxObject* res = this->interpret(e);
-    cout << res << endl; //print()? solucinar!!
+    res->print();
 }
 
 MBoxObject* MBoxInterpreter::interpret(Expr& e){

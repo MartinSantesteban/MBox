@@ -15,6 +15,7 @@ class MBoxObject{
         bool operator!=(MBoxObject& r);
         virtual bool _equals(MBoxObject& right);
         virtual string className(){return "MBoxObject";};
+        virtual void print();
 
         virtual MBoxObject* handleEq(MBoxObject* right);
         virtual MBoxObject* handleNeq(MBoxObject* right);
@@ -47,6 +48,7 @@ class MBoxObject{
 class MBoxNumber : public MBoxObject{
     public:
         MBoxNumber(double d);
+        void print();
 
         string className();
         bool _equals(MBoxObject& right);
@@ -75,6 +77,7 @@ class MBoxString : public MBoxObject{
     public: 
         MBoxString(string s);
         string className();
+        void print();
 
         bool _equals(MBoxObject& right);
 
@@ -89,12 +92,14 @@ class MBoxNil : public MBoxObject{
     public: 
         MBoxNil();
         string className();
+        void print();
         bool _equals(MBoxObject& right);
 };
 
 class MBoxBoolean : public MBoxObject{
     public:
         MBoxBoolean(bool b);
+        void print();
         string className();
 
         bool _equals(MBoxObject& right);
