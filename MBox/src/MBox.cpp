@@ -15,12 +15,11 @@ bool MBox::codeHadError(){
 	return had_error;
 }
 
-string MBox::error(int line, string message){ // este se volvio public solo para poder testear
+string MBox::error(int line, string message){ 
 	return report(line, "", message);
 }
 
 int MBox::runFile(const char *filepath){
-	//auto *file = fopen(filepath, "r");
 	ifstream o(filepath);
 	if(o.fail()){
 		cout << "File not in directory!" << endl;
@@ -75,6 +74,43 @@ string MBox::report(int line, string where, string message){
 	return res;
 }
 
+
+/*
+// TODO puede entrar en una caja. items son los atomicos, [M] son los method boxes, y los boxes hacen todo. 
+
+// variables, boxes and methods.
+item num = 23;
+item var = True;
+item s = "Hola";
+
+[M] func_name [x,y | return x + y];
+
+func_name <- 23;
+func_name <- 32;
+func_name ->; // print 55
+
+[] b1 <- 3;
+b1 <- True;
+b1@1; // True
+print b1; // [3, True]
+print b1; // []
+
+[S] b1;  //set box
+[N] b2;  //named box
+
+[3] b3; // box with three items
+
+// control flow
+[? : expr] ifBox;
+ifBox <- {True branch};
+ifBox <- {False branch};
+ifbox ->; // execute branch
+
+[W : expr] whileBox
+whileBox <- {body}
+whileBox -> //execute while
+
+*/
 
 		
 

@@ -82,7 +82,7 @@ MBoxObject* MBoxInterpreter::interpretUnary(Unary& e){
 void MBoxInterpreter::interpretProgram(vector<Stmt*> vs){
     for(Stmt* s: vs){
         this->interpretStmt(*s);
-    } // ver MBox::run y ver si anda esto. makefile!
+    } 
 }
 
 void MBoxInterpreter::interpretStmt(Stmt& s){
