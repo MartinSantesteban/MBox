@@ -24,6 +24,8 @@ class MBoxParser{
         Expr* unary();
         Expr* primary();
 
+        Stmt* declaration();
+        Stmt* itemDeclStmt();
         Stmt* statement();
         Stmt* printStmt();
         Stmt* exprStmt();

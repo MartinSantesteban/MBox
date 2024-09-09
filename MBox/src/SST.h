@@ -12,7 +12,7 @@ class Stmt{
         virtual ~Stmt() = default;
         bool operator==(Stmt& right);
         bool operator!=(Stmt& right);
-        virtual void accept(MBoxInterpreter& ci) = 0;
+        virtual void accept(MBoxInterpreter& i) = 0;
     private:
         virtual bool _equals(Stmt& s) = 0;
 };
@@ -21,7 +21,7 @@ class ExprStmt : public Stmt{
     public:
         ExprStmt(Expr* e);
         Expr* expr;
-        void accept(MBoxInterpreter& ci);
+        void accept(MBoxInterpreter& i);
     private:
         bool _equals(Stmt& s);
 };
@@ -30,7 +30,17 @@ class PrintStmt : public Stmt{
     public:
         PrintStmt(Expr* e);
         Expr* print_expr;
-        void accept(MBoxInterpreter& ci);
+        void accept(MBoxInterpreter& i);
+    private:
+        bool _equals(Stmt& s);
+};
+
+class ItemDeclStmt : public Stmt{
+    public:
+        ItemDeclStmt(Token* identifier_tkn, Expr* e);
+        Token* identifier_tkn;
+        Expr* value_expr;
+        void accept(MBoxInterpreter& i);
     private:
         bool _equals(Stmt& s);
 };

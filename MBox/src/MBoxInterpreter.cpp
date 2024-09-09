@@ -24,21 +24,21 @@ map<tokenType, function<MBoxObject*(MBoxObject* left, MBoxObject* right)>>  bina
                                                                 {OR,            [](MBoxObject* left, MBoxObject* right){return left->handleOr(right);}}};
 
 void MBoxInterpreter::printFormatedInterpretation(Expr& e){
-    MBoxObject* res = this->interpret(e);
+    MBoxObject* res = this->interpretExpr(e);
     res->print();
 }
 
-MBoxObject* MBoxInterpreter::interpret(Expr& e){
+MBoxObject* MBoxInterpreter::interpretExpr(Expr& e){
     return e.accept(*this);
 };
 
 MBoxObject* MBoxInterpreter::interpretGrouping(Grouping& e){
-    return this->interpret(*e.expression);
+    return this->interpretExpr(*e.expression);
 };
 
 MBoxObject* MBoxInterpreter::interpretBinary(Binary& e){
-    MBoxObject* left_value = this->interpret(*e.left);
-    MBoxObject* right_value = this->interpret(*e.right);
+    MBoxObject* left_value = this->interpretExpr(*e.left);
+    MBoxObject* right_value = this->interpretExpr(*e.right);
     tokenType op_tt = (*e.op).token_type;
     int line = (*e.op).line;
     try{
@@ -66,7 +66,7 @@ MBoxObject* MBoxInterpreter::interpretLiteral(Literal& e){
 
 MBoxObject* MBoxInterpreter::interpretUnary(Unary& e){
     tokenType op_tt  = (*e.op).token_type;
-    MBoxObject* right_value = (*this).interpret(*e.right);
+    MBoxObject* right_value = (*this).interpretExpr(*e.right);
     int line = (*e.op).line;
     try{
         MBoxObject* res = unaryCLosures[op_tt](right_value);
@@ -90,12 +90,16 @@ void MBoxInterpreter::interpretStmt(Stmt& s){
 }
 
 void MBoxInterpreter::interpretExprStmt(ExprStmt& es){
-    this->interpret(*es.expr);
+    this->interpretExpr(*es.expr);
     return;
 }
 
 void MBoxInterpreter::interpretPrintStmt(PrintStmt& ps){
     this->printFormatedInterpretation(*ps.print_expr);
+}
+
+void MBoxInterpreter::interpretItemDeclStmt(ItemDeclStmt& ids){
+    cout << "TODO!!" << endl;
 }
 
 MBoxInterpreter::~MBoxInterpreter(){

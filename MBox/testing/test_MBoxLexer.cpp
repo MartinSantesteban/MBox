@@ -131,8 +131,8 @@ TEST_CASE("Testing: Correct tokenization of keywords"){
 }
 
 TEST_CASE("Testing: Correct tokenization of script."){
-	MBoxLexer lex("var i1 = 4;\nfun suma(a, b){\nreturn a + b;\n}");
-	vector<Token> vect = {Token(VAR, "var" , 0), Token(IDENTIFIER, "i1" , 0), Token(EQUAL, "=" , 0), Token(NUMBER, "4" , 0),Token(SEMICOLON, ";", 0), Token(END_OF_LINE, "/n", 0),
+	MBoxLexer lex("item i1 = 4;\nfun suma(a, b){\nreturn a + b;\n}");
+	vector<Token> vect = {Token(ITEM, "item" , 0), Token(IDENTIFIER, "i1" , 0), Token(EQUAL, "=" , 0), Token(NUMBER, "4" , 0),Token(SEMICOLON, ";", 0), Token(END_OF_LINE, "/n", 0),
 						  Token(FUN, "fun", 1),Token(IDENTIFIER, "suma", 1),Token(L_PAREN, "(", 1),Token(IDENTIFIER, "a", 1), Token(COMMA, ",", 1),Token(IDENTIFIER, "b", 1),Token(R_PAREN, ")", 1), Token(L_BRACE, "{", 1), Token(END_OF_LINE, "/n", 1),
 						  Token(RETURN, "return", 2),Token(IDENTIFIER, "a", 2),Token(PLUS, "+", 2),Token(IDENTIFIER, "b", 2),Token(SEMICOLON, ";", 2),Token(END_OF_LINE, "/n", 2),
 						  Token(R_BRACE, "}", 3)};	

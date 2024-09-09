@@ -84,7 +84,7 @@ Expr* MBoxParser::unary(){
 }
 
 Expr* MBoxParser::primary(){
-    if(match(NUMBER) || match(STRING) || match(TRUE) || match(FALSE) || match(NIL)){
+    if(match(NUMBER) || match(STRING) || match(TRUE) || match(FALSE) || match(NIL) || match(IDENTIFIER)){
         Token* token_ptr = consumeToken();
         Expr* res = new Literal(token_ptr);
         this->expr_pointers.push_back(res);
@@ -114,8 +114,27 @@ vector<Stmt*> MBoxParser::parseProgram(){
 }
 
 Stmt* MBoxParser::parseStmt(){
-    Stmt* res = statement();
+    Stmt* res = declaration();
     return res;
+}
+
+Stmt* MBoxParser::declaration(){
+    if(match(ITEM)) return itemDeclStmt();
+    return statement();
+}
+
+Stmt* MBoxParser::itemDeclStmt(){
+    //match(ITEM) 
+    current++;
+    if(!match(IDENTIFIER)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Item name expected when defining new item.");
+    Token* identifier_tkn = consumeToken();
+    if(!match(EQUAL)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Assignment operator (=) expected when defining new item.");
+    current++;
+    Expr* value_expr_ptr = parseExpression();
+    if(!match(SEMICOLON)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Semicolon expected.");
+    current++;
+    Stmt* item_decl_stmt_ptr = new ItemDeclStmt(identifier_tkn, value_expr_ptr);
+    return item_decl_stmt_ptr;
 }
 
 Stmt* MBoxParser::statement(){
@@ -133,16 +152,14 @@ Stmt* MBoxParser::exprStmt(){
 }
 
 Stmt* MBoxParser::printStmt(){
-    if(match(PRINT)){
-        current++;
-        Expr* print_expr_ptr = parseExpression(); // deberiamos poner exprStmt?
-        if(!match(SEMICOLON)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Semicolon expected.");
-        current++;
-        Stmt* ps_ptr = new PrintStmt(print_expr_ptr);
-        this->stmt_pointers.push_back(ps_ptr);
-        return ps_ptr;
-    }
-    throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current].line) + " -- Invalid token encountered.");
+    // match(PRINT)    
+    current++;
+    Expr* print_expr_ptr = parseExpression(); // deberiamos poner exprStmt?
+    if(!match(SEMICOLON)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Semicolon expected.");
+    current++;
+    Stmt* ps_ptr = new PrintStmt(print_expr_ptr);
+    this->stmt_pointers.push_back(ps_ptr);
+    return ps_ptr;
 }
 
 MBoxParser::~MBoxParser(){

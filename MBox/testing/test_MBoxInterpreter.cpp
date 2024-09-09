@@ -10,7 +10,7 @@ TEST_CASE("Testing: Correct interpretation of Literal expression. -- STRING"){
 	Literal l(&t);
 
     MBoxInterpreter i;
-    auto interpretation = i.interpret(l);
+    auto interpretation = i.interpretExpr(l);
 
     MBoxString s("ABC");
 
@@ -22,7 +22,7 @@ TEST_CASE("Testing: Correct interpretation of Literal expression. -- NUMBER"){
 	Literal l(&t);
 
     MBoxInterpreter i;
-    auto interpretation = i.interpret(l);
+    auto interpretation = i.interpretExpr(l);
 
     MBoxNumber num(95);
 
@@ -34,7 +34,7 @@ TEST_CASE("Testing: Correct interpretation of Literal expression. -- BOOLS"){
 	Literal l(&t);
 
     MBoxInterpreter i;
-    auto interpretation = i.interpret(l);
+    auto interpretation = i.interpretExpr(l);
 
     MBoxBoolean bool_object(true);
 
@@ -43,7 +43,7 @@ TEST_CASE("Testing: Correct interpretation of Literal expression. -- BOOLS"){
     Token t2(FALSE, "False", 0);
 	Literal l2(&t2);
 
-    auto interpretation2 = i.interpret(l2);
+    auto interpretation2 = i.interpretExpr(l2);
 
     MBoxBoolean bool_false(false);
 
@@ -56,7 +56,7 @@ TEST_CASE("Testing: Correct interpretation of Literal expression. -- NIL"){
 	Literal l(&t);
 
     MBoxInterpreter i;
-    auto interpretation = i.interpret(l);
+    auto interpretation = i.interpretExpr(l);
 
     MBoxNil nil;
 
@@ -69,14 +69,14 @@ TEST_CASE("Testing: Correct interpretation of Unary expression. -- BANG"){
 	Literal l(&t);
     Unary u(&op, &l);
     MBoxInterpreter i;
-    auto interpretation = i.interpret(u);
+    auto interpretation = i.interpretExpr(u);
     MBoxBoolean res(true);
     CHECK(*interpretation == res);
 
     Token t2(TRUE, "False", 0);
     Literal l2(&t2);
     Unary u2(&op, &l2);
-    auto interpretation2 = i.interpret(u2);
+    auto interpretation2 = i.interpretExpr(u2);
     MBoxBoolean res2(false);
     CHECK(*interpretation2 == res2);
 }
@@ -87,7 +87,7 @@ TEST_CASE("Testing: Interpreter throws error when expression value does not supp
 	Literal l(&t);
     Unary u(&op, &l);
     MBoxInterpreter i;
-    CHECK_THROWS_WITH(i.interpret(u), "[MBoxInterpreter] in line 1: [MBoxNumber] Class does not handle ! operator in unary expression.");
+    CHECK_THROWS_WITH(i.interpretExpr(u), "[MBoxInterpreter] in line 1: [MBoxNumber] Class does not handle ! operator in unary expression.");
 }
 
 TEST_CASE("Testing: Correct interpretation of Unary expression. -- MINUS"){
@@ -97,7 +97,7 @@ TEST_CASE("Testing: Correct interpretation of Unary expression. -- MINUS"){
     Unary u(&op, &l);
 
     MBoxInterpreter i;
-    auto interpretation = i.interpret(u);
+    auto interpretation = i.interpretExpr(u);
     MBoxNumber res(-989);
     CHECK(*interpretation == res);
 }
@@ -108,7 +108,7 @@ TEST_CASE("Testing: Interpreter throws error when expression value does not supp
 	Literal l(&t);
     Unary u(&op, &l);
     MBoxInterpreter i;
-    CHECK_THROWS_WITH(i.interpret(u), "[MBoxInterpreter] in line 1: [MBoxBoolean] Class does not handle - operator in unary expression.");
+    CHECK_THROWS_WITH(i.interpretExpr(u), "[MBoxInterpreter] in line 1: [MBoxBoolean] Class does not handle - operator in unary expression.");
 }
 
 TEST_CASE("Testing: Correct interpretation of Grouping expression."){
@@ -121,7 +121,7 @@ TEST_CASE("Testing: Correct interpretation of Grouping expression."){
     Grouping g2(&g1);
 
     MBoxInterpreter i;
-    CHECK(*(i.interpret(u)) == *(i.interpret(g2)));
+    CHECK(*(i.interpretExpr(u)) == *(i.interpretExpr(g2)));
 }
 
 TEST_CASE("Testing: Correct interpretation of Binary expression. -- <, <= , >, >= "){
@@ -145,10 +145,10 @@ TEST_CASE("Testing: Correct interpretation of Binary expression. -- <, <= , >, >
      
     MBoxInterpreter i;
 
-    auto interpretation1 = i.interpret(b1);
-    auto interpretation2 = i.interpret(b2);
-    auto interpretation3 = i.interpret(b3);
-    auto interpretation4 = i.interpret(b4);
+    auto interpretation1 = i.interpretExpr(b1);
+    auto interpretation2 = i.interpretExpr(b2);
+    auto interpretation3 = i.interpretExpr(b3);
+    auto interpretation4 = i.interpretExpr(b4);
 
     MBoxBoolean t(true);
     MBoxBoolean f(false);
@@ -178,10 +178,10 @@ TEST_CASE("Testing: Correct interpretation of Binary number expression. -- +, -,
      
     MBoxInterpreter i;
 
-    auto interpretation1 = i.interpret(b1);
-    auto interpretation2 = i.interpret(b2);
-    auto interpretation3 = i.interpret(b3);
-    auto interpretation4 = i.interpret(b4);
+    auto interpretation1 = i.interpretExpr(b1);
+    auto interpretation2 = i.interpretExpr(b2);
+    auto interpretation3 = i.interpretExpr(b3);
+    auto interpretation4 = i.interpretExpr(b4);
 
     MBoxNumber n1(7);
     MBoxNumber n2(3);
@@ -212,10 +212,10 @@ TEST_CASE("Testing: Correct interpretation of Binary boolean expression. -- and,
      
     MBoxInterpreter i;
 
-    auto interpretation1 = i.interpret(b1);
-    auto interpretation2 = i.interpret(b2);
-    auto interpretation3 = i.interpret(b3);
-    auto interpretation4 = i.interpret(b4);
+    auto interpretation1 = i.interpretExpr(b1);
+    auto interpretation2 = i.interpretExpr(b2);
+    auto interpretation3 = i.interpretExpr(b3);
+    auto interpretation4 = i.interpretExpr(b4);
     
     MBoxBoolean t(true);
     MBoxBoolean f(false);
@@ -238,7 +238,7 @@ TEST_CASE("Testing: Correct interpretation of Binary expression. -- string conca
     Binary b1(&l1, &op1, &l2); 
      
     MBoxInterpreter i;
-    auto interpretation1 = i.interpret(b1);
+    auto interpretation1 = i.interpretExpr(b1);
 
     MBoxString res("\"foobar\"");
     CHECK(*interpretation1 == res);
@@ -258,10 +258,10 @@ TEST_CASE("Testing: Correct interpretation of Binary expression. -- == , !="){
     Binary b4(&l1, &op2, &l1); 
     
     MBoxInterpreter i;
-    auto interpretation1 = i.interpret(b1);
-    auto interpretation2 = i.interpret(b2);
-    auto interpretation3 = i.interpret(b3);
-    auto interpretation4 = i.interpret(b4);
+    auto interpretation1 = i.interpretExpr(b1);
+    auto interpretation2 = i.interpretExpr(b2);
+    auto interpretation3 = i.interpretExpr(b3);
+    auto interpretation4 = i.interpretExpr(b4);
 
     MBoxBoolean t(true);
     MBoxBoolean f(false);
@@ -292,7 +292,7 @@ TEST_CASE("Testing: Correct interpretation of expression."){
     Binary b3(&b1, &op2, &b2);   // 1 + 4 == 10 / 2
 
     MBoxInterpreter i;
-    auto interpretation = i.interpret(b3);
+    auto interpretation = i.interpretExpr(b3);
 
     MBoxBoolean t(true);
 

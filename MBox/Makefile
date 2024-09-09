@@ -43,6 +43,10 @@ test_MBoxParser_Statements: test_MBoxParser_Statements.o SST.o token.o enums_and
 	$(CC) -o $(BINDIR)/test_MBoxParser_Statements $(BINDIR)/enums_and_maps.o $(BINDIR)/token.o $(BINDIR)/MBoxObject.o $(BINDIR)/SST.o $(BINDIR)/AST.o $(BINDIR)/visitor.o $(BINDIR)/MBoxInterpreter.o $(BINDIR)/MBoxParser.o $(BINDIR)/test_MBoxParser_Statements.o 
 	$(BINDIR)/test_MBoxParser_Statements
 
+test_MBoxParser_items: test_MBoxParser_items.o SST.o token.o enums_and_maps.o AST.o MBoxInterpreter.o MBoxParser.o visitor.o MBoxObject.o
+	$(CC) -o $(BINDIR)/test_MBoxParser_items $(BINDIR)/enums_and_maps.o $(BINDIR)/token.o $(BINDIR)/MBoxObject.o $(BINDIR)/SST.o $(BINDIR)/AST.o $(BINDIR)/visitor.o $(BINDIR)/MBoxInterpreter.o $(BINDIR)/MBoxParser.o $(BINDIR)/test_MBoxParser_items.o 
+	$(BINDIR)/test_MBoxParser_items
+
 binary: enums_and_maps.o token.o AST.o SST.o MBoxLexer.o MBoxParser.o MBoxInterpreter.o MBox.o main.o MBoxObject.o
 	$(CC) -o $(BINDIR)/MBoxMain $(BINDIR)/enums_and_maps.o $(BINDIR)/token.o $(BINDIR)/AST.o $(BINDIR)/MBoxLexer.o $(BINDIR)/MBoxParser.o $(BINDIR)/SST.o $(BINDIR)/MBoxObject.o $(BINDIR)/MBoxInterpreter.o $(BINDIR)/MBox.o $(BINDIR)/main.o 
 
@@ -102,5 +106,8 @@ test_MBoxParser_Statements.o: ./testing/test_MBoxParser_Statements.cpp
 
 MBoxObject.o: ./src/MBoxObject.cpp
 	$(CC) $(CFLAGS) ./src/MBoxObject.cpp -o $(BINDIR)/MBoxObject.o
+
+test_MBoxParser_items.o: ./testing/test_MBoxParser_items.cpp
+	$(CC) $(CFLAGS) ./testing/test_MBoxParser_items.cpp -o $(BINDIR)/test_MBoxParser_items.o
 
 	

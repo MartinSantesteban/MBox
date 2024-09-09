@@ -25,7 +25,7 @@ enum tokenType {
 	// Literals
 	IDENTIFIER, STRING, NUMBER,
 	// Keywords
-	AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR, PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE, END_OF_LINE
+	AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR, PRINT, RETURN, SUPER, THIS, TRUE, ITEM, WHILE, END_OF_LINE
 };
 
 extern const string tokenTypeString[];
