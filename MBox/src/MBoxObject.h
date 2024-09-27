@@ -69,7 +69,7 @@ class MBoxNumber : public MBoxObject{
         MBoxObject* getSubstractedToNumber(MBoxNumber* left_number);
         MBoxObject* getMultipliedToNumber(MBoxNumber* left_number);
         MBoxObject* getDividedToNumber(MBoxNumber* left_number);
-
+    private:
         double value;
 };
 
@@ -84,7 +84,7 @@ class MBoxString : public MBoxObject{
         MBoxObject* handlePlus(MBoxObject* right_object);
 
         MBoxObject* getAddedToString(MBoxString* left_string);
-
+    private:
         string value;
 };
 
@@ -110,7 +110,7 @@ class MBoxBoolean : public MBoxObject{
 
         MBoxObject* andBoolean(MBoxBoolean* left_bool);
         MBoxObject* orBoolean(MBoxBoolean* left_bool);
-
+    private:
         bool value;
 };
 

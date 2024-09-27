@@ -11,9 +11,9 @@ class Token{
         bool operator<(const Token& t) const;
         bool operator ==(const Token& t) const;
         friend ostream& operator<< (ostream &out, const Token& t);
-    //private:
+    // al ser clases bastante anemicas no hago privados los miembros. Debería hacerlos const!!!
         tokenType token_type; 
-        string lexeme;  // el raw string del token "7"
+        string lexeme;  
         int line;
 };
 

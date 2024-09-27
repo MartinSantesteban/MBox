@@ -1,6 +1,7 @@
 #ifndef MBOX_INTERPRETER_H
 #define MBOX_INTERPRETER_H
 
+#include "./MBoxEnvironment.h"
 #include "./MBoxObject.h"
 #include "./AST.h"
 #include "./SST.h"
@@ -18,6 +19,8 @@ class ItemDeclStmt;
 
 class MBoxObject;
 
+class MBoxEnvironment;
+
 class MBoxInterpreter{
        public:      
               ~MBoxInterpreter();
@@ -34,8 +37,12 @@ class MBoxInterpreter{
               void interpretExprStmt(ExprStmt& es);
               void interpretPrintStmt(PrintStmt& ps);
               void interpretItemDeclStmt(ItemDeclStmt& ids);
+
+              MBoxObject* getVariableValue(string varName);
        private:
               set<MBoxObject*> objects;
+              MBoxEnvironment environment;
+
 };
 
 #endif

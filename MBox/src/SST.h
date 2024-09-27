@@ -41,8 +41,11 @@ class ItemDeclStmt : public Stmt{
         Token* identifier_tkn;
         Expr* value_expr;
         void accept(MBoxInterpreter& i);
+        string itemName();
     private:
         bool _equals(Stmt& s);
 };
 
 #endif
+
+// al ser clases bastante anemicas no hago privados los miembros. Debería hacerlos const!!!

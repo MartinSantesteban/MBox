@@ -99,11 +99,16 @@ void MBoxInterpreter::interpretPrintStmt(PrintStmt& ps){
 }
 
 void MBoxInterpreter::interpretItemDeclStmt(ItemDeclStmt& ids){
-    cout << "TODO!!" << endl;
+    this->environment.setVariableValue(ids.itemName(), this->interpretExpr(*ids.value_expr)); 
 }
 
 MBoxInterpreter::~MBoxInterpreter(){
     for(auto &ptr : this->objects){     
         delete ptr;
     }
+}
+
+// OBS
+MBoxObject* MBoxInterpreter::getVariableValue(string varName){
+    return this->environment.getVariableValue(varName);
 }

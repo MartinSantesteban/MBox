@@ -51,3 +51,7 @@ bool ItemDeclStmt::_equals(Stmt& s){
     return *(this->identifier_tkn) == *(ids.identifier_tkn) &&
            *(this->value_expr) == *(ids.value_expr);
 }
+
+string ItemDeclStmt::itemName(){
+    return this->identifier_tkn->lexeme;
+}

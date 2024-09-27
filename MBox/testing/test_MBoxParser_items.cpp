@@ -67,8 +67,7 @@ TEST_CASE("Correct parsing of item declaration statement with complex expression
 
 }
 
-TEST_CASE("Correct parsing of item declaration statement."){
-    // item num = 43;  -- LEXER --> [ITEM, "item", 0][IDENTIFIER, "num", 0][EQUAL, "=", 0][NUMBER, 43, 0][SEMICOLON, ";", 0]
+TEST_CASE("Correct parsing of item variable expression."){
     vector<Token> tokens;
     
     Token t1(IDENTIFIER, "num", 0);
