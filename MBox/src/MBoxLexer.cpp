@@ -58,6 +58,9 @@ void MBoxLexer::scanToken(){
 		case ';':
 			addToken(start, current, SEMICOLON);
 			break;
+		case ':':
+			addToken(start, current, DOTS);
+			break;			
 		case '.':
 			addToken(start, current, DOT);
 			break;
@@ -138,6 +141,7 @@ void MBoxLexer::scanKeyword(){
 	while(current < src_code.size() && (isalpha(src_code[current]) || isdigit(src_code[current]))) current++;
 	current--;
 	string lexeme = src_code.substr(start, current - start + 1);
+	if(lexeme.size() == 0) throw invalid_argument("[MBoxLexer] in line " + to_string(this->line) + ": Invalid character encountered.");
 	// 	cout << lexeme << endl;
 	if(auto f = keywords.find(lexeme); f != keywords.end()){
 		addToken(start, current, keywords.at(lexeme));

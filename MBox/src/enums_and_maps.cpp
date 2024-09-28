@@ -2,7 +2,7 @@
 
 const string tokenTypeString[] = {
 	// Single character token types (){}+-*/,;.            <- fijate que estos son independientes de todos los demas operadores
-	"L_PAREN", "R_PAREN", "L_BRACE", "R_BRACE", "PLUS", "MINUS", "STAR", "SLASH", "COMMA", "SEMICOLON", "DOT",
+	"L_PAREN", "R_PAREN", "L_BRACE", "R_BRACE", "PLUS", "MINUS", "STAR", "SLASH", "COMMA", "SEMICOLON", "DOT", "DOTS",
 	// Two character token types or dependant single types <- siempre que te encontras un !, tenes que chequear si el siguiente es un =. ! = no funca.
 	"BANG", "BANG_EQUAL", "EQUAL", "EQUAL_EQUAL", "GREATER", "GREATER_EQUAL", "LESS", "LESS_EQUAL", 
 	// Literals

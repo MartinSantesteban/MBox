@@ -42,7 +42,7 @@ Expr* MBoxParser::BinaryPositiveClossure(MBoxParser* parser, Expr* (MBoxParser::
 
 Expr* MBoxParser::parseExpression(){
     Expr* res = expression();
-    if(match(R_PAREN)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current].line) + " -- Left parenthesis expected.");
+    if(match(R_PAREN)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Left parenthesis expected.");
     return res;
 }
 
@@ -95,12 +95,12 @@ Expr* MBoxParser::primary(){
         Expr* res = expression();
         res = new Grouping(res);
         this->expr_pointers.push_back(res);
-        if(!match(R_PAREN)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Right parenthesis expected.");        
+        if(!match(R_PAREN)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Right parenthesis expected.");        
         current++;
         return res;
     }
-    if(match(R_PAREN)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current].line) + " -- Left parenthesis expected."); 
-    throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current].line) + " -- Invalid token encountered.");
+    if(match(R_PAREN)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Left parenthesis expected."); 
+    throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Invalid token encountered.");
 }
 
 // STATEMENTS
@@ -126,12 +126,12 @@ Stmt* MBoxParser::declaration(){
 Stmt* MBoxParser::itemDeclStmt(){
     //match(ITEM) 
     current++;
-    if(!match(IDENTIFIER)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Item name expected when defining new item.");
+    if(!match(IDENTIFIER)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Item name expected when defining new item.");
     Token* identifier_tkn = consumeToken();
-    if(!match(EQUAL)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Assignment operator (=) expected when defining new item.");
+    if(!match(EQUAL)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Assignment operator (=) expected when defining new item.");
     current++;
     Expr* value_expr_ptr = parseExpression();
-    if(!match(SEMICOLON)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Semicolon expected.");
+    if(!match(SEMICOLON)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Semicolon expected, got " + tokenTypeString[tokens[current].token_type] + " instead." );
     current++;
     Stmt* item_decl_stmt_ptr = new ItemDeclStmt(identifier_tkn, value_expr_ptr);
     return item_decl_stmt_ptr;
@@ -144,7 +144,7 @@ Stmt* MBoxParser::statement(){
 
 Stmt* MBoxParser::exprStmt(){
     Expr* expr_ptr = parseExpression();
-    if(!match(SEMICOLON)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Semicolon expected.");
+    if(!match(SEMICOLON)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Semicolon expected, got " + tokenTypeString[tokens[current].token_type] + " instead." );
     current++;
     Stmt* es_ptr = new ExprStmt(expr_ptr);
     this->stmt_pointers.push_back(es_ptr);
@@ -155,7 +155,7 @@ Stmt* MBoxParser::printStmt(){
     // match(PRINT)    
     current++;
     Expr* print_expr_ptr = parseExpression(); // deberiamos poner exprStmt?
-    if(!match(SEMICOLON)) throw invalid_argument("MBoxParser :: line " + to_string(this->tokens[current - 1].line) + " -- Semicolon expected.");
+    if(!match(SEMICOLON)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Semicolon expected.");
     current++;
     Stmt* ps_ptr = new PrintStmt(print_expr_ptr);
     this->stmt_pointers.push_back(ps_ptr);

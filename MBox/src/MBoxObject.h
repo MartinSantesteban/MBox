@@ -10,7 +10,7 @@ class MBoxString;
 class MBoxObject{
     public: 
         virtual ~MBoxObject() = default;
-
+        void throw_exception(string s){throw invalid_argument("[" + this->className() + "] " + s);};
         bool operator==(MBoxObject& r);
         bool operator!=(MBoxObject& r);
         virtual bool _equals(MBoxObject& right);
@@ -19,30 +19,30 @@ class MBoxObject{
 
         virtual MBoxObject* handleEq(MBoxObject* right);
         virtual MBoxObject* handleNeq(MBoxObject* right);
-        virtual MBoxObject* handleLess(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle < operator in binary expression.");};
-        virtual MBoxObject* handleLessEq(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle <= operator in binary expression.");};
-        virtual MBoxObject* handleGreater(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle > operator in binary expression.");};
-        virtual MBoxObject* handleGreaterEq(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle >= operator in binary expression.");};
-        virtual MBoxObject* handlePlus(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle + operator in binary expression.");};
-        virtual MBoxObject* handleMinus(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle - operator in binary expression.");};
-        virtual MBoxObject* handleStar(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle * operator in binary expression.");};
-        virtual MBoxObject* handleSlash(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle / operator in binary expression.");};
-        virtual MBoxObject* handleAnd(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle AND operator in binary expression.");};
-        virtual MBoxObject* handleOr(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle OR operator in binary expression.");};
-        virtual MBoxObject* handleBang(){throw invalid_argument("[" + this->className() + "] Class does not handle ! operator in unary expression.");};
-        virtual MBoxObject* handleMinus(){throw invalid_argument("[" + this->className() + "] Class does not handle - operator in unary expression.");};
+        virtual MBoxObject* handleLess(MBoxObject* right_object){throw_exception("Class does not handle < operator in binary expression.");};
+        virtual MBoxObject* handleLessEq(MBoxObject* right_object){throw_exception("Class does not handle <= operator in binary expression.");};
+        virtual MBoxObject* handleGreater(MBoxObject* right_object){throw_exception("Class does not handle > operator in binary expression.");};
+        virtual MBoxObject* handleGreaterEq(MBoxObject* right_object){throw_exception("Class does not handle >= operator in binary expression.");};
+        virtual MBoxObject* handlePlus(MBoxObject* right_object){throw_exception("Class does not handle + operator in binary expression.");};
+        virtual MBoxObject* handleMinus(MBoxObject* right_object){throw_exception("Class does not handle - operator in binary expression.");};
+        virtual MBoxObject* handleStar(MBoxObject* right_object){throw_exception("Class does not handle * operator in binary expression.");};
+        virtual MBoxObject* handleSlash(MBoxObject* right_object){throw_exception("Class does not handle / operator in binary expression.");};
+        virtual MBoxObject* handleAnd(MBoxObject* right_object){throw_exception("Class does not handle AND operator in binary expression.");};
+        virtual MBoxObject* handleOr(MBoxObject* right_object){throw_exception("Class does not handle OR operator in binary expression.");};
+        virtual MBoxObject* handleBang(){throw_exception("Class does not handle ! operator in unary expression.");};
+        virtual MBoxObject* handleMinus(){throw_exception("Class does not handle - operator in unary expression.");};
 
-        virtual MBoxObject* isGreaterThanNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be compared to number.");};
-        virtual MBoxObject* isGreaterEqualThanNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be compared to number.");};
-        virtual MBoxObject* getAddedToNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be added (+) to number.");};
-        virtual MBoxObject* getSubstractedToNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be substracted (-) to number.");};
-        virtual MBoxObject* getMultipliedToNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be multiplied (*) to number.");};
-        virtual MBoxObject* getDividedToNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be dividided (/) to number.");};
+        virtual MBoxObject* isGreaterThanNumber(MBoxNumber* left_number){throw_exception("Class cant be compared to number.");};
+        virtual MBoxObject* isGreaterEqualThanNumber(MBoxNumber* left_number){throw_exception("Class cant be compared to number.");};
+        virtual MBoxObject* getAddedToNumber(MBoxNumber* left_number){throw_exception("Class cant be added (+) to number.");};
+        virtual MBoxObject* getSubstractedToNumber(MBoxNumber* left_number){throw_exception("Class cant be substracted (-) to number.");};
+        virtual MBoxObject* getMultipliedToNumber(MBoxNumber* left_number){throw_exception("Class cant be multiplied (*) to number.");};
+        virtual MBoxObject* getDividedToNumber(MBoxNumber* left_number){throw_exception("Class cant be dividided (/) to number.");};
         
-        virtual MBoxObject* getAddedToString(MBoxString* left_string){{throw invalid_argument("[" + this->className() + "] Class does not support + operation with string.");};};
+        virtual MBoxObject* getAddedToString(MBoxString* left_string){{throw_exception("Class does not support + operation with string.");};};
         
-        virtual MBoxObject* andBoolean(MBoxBoolean* left_bool){{throw invalid_argument("[" + this->className() + "] Class does not support AND operation with string.");};};
-        virtual MBoxObject* orBoolean(MBoxBoolean* left_bool){{throw invalid_argument("[" + this->className() + "] Class does not support OR operation with string.");};};
+        virtual MBoxObject* andBoolean(MBoxBoolean* left_bool){{throw_exception("Class does not support AND operation with string.");};};
+        virtual MBoxObject* orBoolean(MBoxBoolean* left_bool){{throw_exception("Class does not support OR operation with string.");};};
 };
 
 class MBoxNumber : public MBoxObject{

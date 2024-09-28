@@ -62,7 +62,6 @@ void MBox::run(string src){
 	MBoxParser p(tokens);
 	vector<Stmt*> program_statements = p.parseProgram();
 	MBoxInterpreter i;
-	cout << "Result of execution: ";
 	i.interpretProgram(program_statements);
 }
 
