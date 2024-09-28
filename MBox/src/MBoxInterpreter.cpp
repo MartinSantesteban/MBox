@@ -1,10 +1,11 @@
 #include "./MBoxInterpreter.h"
 
-map<tokenType, function<MBoxObject*(string)>>  literalClosures = {{STRING, [](string lexeme){return new MBoxString(lexeme);}},
-                                                                 {NUMBER,  [](string lexeme){return new MBoxNumber((double) stoi(lexeme));}},
-                                                                 {TRUE,    [](string lexeme){return new MBoxBoolean(true);}},
-                                                                 {FALSE,   [](string lexeme){return new MBoxBoolean(false);}},
-                                                                 {NIL,     [](string lexeme){return new MBoxNil();}}};
+map<tokenType, function<MBoxObject*(string, MBoxEnvironment*)>>  literalClosures = {{STRING,    [](string lexeme, MBoxEnvironment* e){return new MBoxString(lexeme);}},
+                                                                 {NUMBER,     [](string lexeme, MBoxEnvironment* e){return new MBoxNumber((double) stoi(lexeme));}},
+                                                                 {TRUE,       [](string lexeme, MBoxEnvironment* e){return new MBoxBoolean(true);}},
+                                                                 {FALSE,      [](string lexeme, MBoxEnvironment* e){return new MBoxBoolean(false);}},
+                                                                 {NIL,        [](string lexeme, MBoxEnvironment* e){return new MBoxNil();}},
+                                                                 {IDENTIFIER, [](string lexeme, MBoxEnvironment* e){return e->getVariableValue(lexeme);}}};
 
 map<tokenType,function<MBoxObject*(MBoxObject* right)>> unaryCLosures = {{BANG,   [](MBoxObject* right){return (*right).handleBang();}},
                                                                          {MINUS,  [](MBoxObject* right){return (*right).handleMinus();}}};
@@ -55,7 +56,7 @@ MBoxObject* MBoxInterpreter::interpretLiteral(Literal& e){
     string lexeme = (*e.value).lexeme;
     int line = (*e.value).line;
     try{
-        MBoxObject* res = literalClosures[tt](lexeme);
+        MBoxObject* res = literalClosures[tt](lexeme, &(this->environment));
         this->objects.insert(res);
         return res;
     }catch(const std::invalid_argument& exc){

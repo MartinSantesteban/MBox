@@ -320,23 +320,12 @@ TEST_CASE("Testing: Correct interpretation of PrintStatement."){
 
 TEST_CASE("Testing: Correct interpretation of variable declaration."){
     // item x = 43 + 43 + 43;  -- LEXER --> [ITEM, "item", 0][IDENTIFIER, "x", 0][EQUAL, "=", 0][NUMBER, 43, 0][SEMICOLON, ";", 0]
-    vector<Token> tokens;
     Token t1(ITEM, "item", 0);
     Token t2(IDENTIFIER, "x", 0);
     Token t3(EQUAL, "=", 0);
     Token t4(NUMBER, "43", 0);
     Token t5(PLUS, "+", 0);
     Token t6(SEMICOLON, ";", 0);
-
-    tokens.push_back(t1);
-    tokens.push_back(t2);
-    tokens.push_back(t3);
-    tokens.push_back(t4);
-    tokens.push_back(t5);
-    tokens.push_back(t4);
-    tokens.push_back(t5);
-    tokens.push_back(t4);
-    tokens.push_back(t6);
 
     Literal l1(&t4);
     Literal l2(&t4);
@@ -352,3 +341,28 @@ TEST_CASE("Testing: Correct interpretation of variable declaration."){
     CHECK(*(i.getVariableValue(t2.lexeme)) == n);
 }
 
+TEST_CASE("Testing: Correct interpretation of variable as expression."){
+    // item x = 45; print x * 45; -- LEXER --> [ITEM, "item", 0][IDENTIFIER, "x", 0][EQUAL, "=", 0][NUMBER, 43, 0][SEMICOLON, ";", 0]
+    vector<Stmt*> tokens;
+    Token t1(ITEM, "item", 0);
+    Token t2(IDENTIFIER, "x", 0);
+    Token t3(EQUAL, "=", 0);
+    Token t4(NUMBER, "45", 0);
+    Token t5(SEMICOLON, ";", 0);
+    Literal l1(&t4);
+
+    ItemDeclStmt it(&t2, &l1);  
+
+    Literal l2(&t2);
+    Literal l3(&t4);
+    Token op(STAR, "*", 0);
+    Binary b(&l2, &op, &l3);
+    PrintStmt ps(&b);
+
+    tokens.push_back(&it);
+    tokens.push_back(&ps);
+
+    MBoxInterpreter i;
+    i.interpretProgram(tokens); //deberia printear 2025
+    CHECK(true);
+}

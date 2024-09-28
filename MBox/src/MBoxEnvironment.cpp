@@ -14,7 +14,7 @@ void MBoxEnvironment::setVariableValue(string var, MBoxObject* o){
 
 MBoxObject* MBoxEnvironment::getVariableValue(string var){
     if(this->values.count(var) == 0){
-        throw invalid_argument("[MBoxEnvironment] : " + var + " is not defined!");
+        throw invalid_argument("[MBoxEnvironment] : " + var + " is not a defined variable.");
     }
     return this->values[var];
 }

@@ -9,7 +9,7 @@ class MBoxString;
 
 class MBoxObject{
     public: 
-        ~MBoxObject() = default;
+        virtual ~MBoxObject() = default;
 
         bool operator==(MBoxObject& r);
         bool operator!=(MBoxObject& r);
@@ -19,10 +19,10 @@ class MBoxObject{
 
         virtual MBoxObject* handleEq(MBoxObject* right);
         virtual MBoxObject* handleNeq(MBoxObject* right);
-        virtual MBoxObject* handleLess(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle > operator in binary expression.");};
-        virtual MBoxObject* handleLessEq(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle >= operator in binary expression.");};
-        virtual MBoxObject* handleGreater(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle < operator in binary expression.");};
-        virtual MBoxObject* handleGreaterEq(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle <= operator in binary expression.");};
+        virtual MBoxObject* handleLess(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle < operator in binary expression.");};
+        virtual MBoxObject* handleLessEq(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle <= operator in binary expression.");};
+        virtual MBoxObject* handleGreater(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle > operator in binary expression.");};
+        virtual MBoxObject* handleGreaterEq(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle >= operator in binary expression.");};
         virtual MBoxObject* handlePlus(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle + operator in binary expression.");};
         virtual MBoxObject* handleMinus(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle - operator in binary expression.");};
         virtual MBoxObject* handleStar(MBoxObject* right_object){throw invalid_argument("[" + this->className() + "] Class does not handle * operator in binary expression.");};
@@ -32,22 +32,23 @@ class MBoxObject{
         virtual MBoxObject* handleBang(){throw invalid_argument("[" + this->className() + "] Class does not handle ! operator in unary expression.");};
         virtual MBoxObject* handleMinus(){throw invalid_argument("[" + this->className() + "] Class does not handle - operator in unary expression.");};
 
-        virtual MBoxObject* isGreaterThanNumber(MBoxNumber* left_number){};
-        virtual MBoxObject* isGreaterEqualThanNumber(MBoxNumber* left_number){};
-        virtual MBoxObject* getAddedToNumber(MBoxNumber* left_number){};
-        virtual MBoxObject* getSubstractedToNumber(MBoxNumber* left_number){};
-        virtual MBoxObject* getMultipliedToNumber(MBoxNumber* left_number){};
-        virtual MBoxObject* getDividedToNumber(MBoxNumber* left_number){};
+        virtual MBoxObject* isGreaterThanNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be compared to number.");};
+        virtual MBoxObject* isGreaterEqualThanNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be compared to number.");};
+        virtual MBoxObject* getAddedToNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be added (+) to number.");};
+        virtual MBoxObject* getSubstractedToNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be substracted (-) to number.");};
+        virtual MBoxObject* getMultipliedToNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be multiplied (*) to number.");};
+        virtual MBoxObject* getDividedToNumber(MBoxNumber* left_number){throw invalid_argument("[" + this->className() + "] Class cant be dividided (/) to number.");};
         
-        virtual MBoxObject* getAddedToString(MBoxString* left_string){};
+        virtual MBoxObject* getAddedToString(MBoxString* left_string){{throw invalid_argument("[" + this->className() + "] Class does not support + operation with string.");};};
         
-        virtual MBoxObject* andBoolean(MBoxBoolean* left_bool){};
-        virtual MBoxObject* orBoolean(MBoxBoolean* left_bool){};
+        virtual MBoxObject* andBoolean(MBoxBoolean* left_bool){{throw invalid_argument("[" + this->className() + "] Class does not support AND operation with string.");};};
+        virtual MBoxObject* orBoolean(MBoxBoolean* left_bool){{throw invalid_argument("[" + this->className() + "] Class does not support OR operation with string.");};};
 };
 
 class MBoxNumber : public MBoxObject{
     public:
         MBoxNumber(double d);
+        ~MBoxNumber() = default;
         void print();
 
         string className();
@@ -76,6 +77,7 @@ class MBoxNumber : public MBoxObject{
 class MBoxString : public MBoxObject{
     public: 
         MBoxString(string s);
+        ~MBoxString() = default;
         string className();
         void print();
 
@@ -91,6 +93,7 @@ class MBoxString : public MBoxObject{
 class MBoxNil : public MBoxObject{
     public: 
         MBoxNil();
+        ~MBoxNil() = default;
         string className();
         void print();
         bool _equals(MBoxObject& right);
@@ -99,6 +102,7 @@ class MBoxNil : public MBoxObject{
 class MBoxBoolean : public MBoxObject{
     public:
         MBoxBoolean(bool b);
+        ~MBoxBoolean() = default;
         void print();
         string className();
 

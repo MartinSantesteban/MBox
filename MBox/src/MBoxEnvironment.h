@@ -1,3 +1,6 @@
+#ifndef MBOX_ENVIRONMENT_H
+#define MBOX_ENVIRONMENT_H  
+
 #include "./enums_and_maps.h"
 #include "./MBoxObject.h"
 
@@ -12,3 +15,5 @@ class MBoxEnvironment{
     private:
         std::map<string, MBoxObject*> values;   
 };
+
+#endif
