@@ -124,14 +124,14 @@ Stmt* MBoxParser::declaration(){
 }
 
 Stmt* MBoxParser::itemDeclStmt(){
-    //match(ITEM) 
+    //match(ITEM) is true
     current++;
     if(!match(IDENTIFIER)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Item name expected when defining new item.");
     Token* identifier_tkn = consumeToken();
     if(!match(EQUAL)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Assignment operator (=) expected when defining new item.");
     current++;
     Expr* value_expr_ptr = parseExpression();
-    if(!match(SEMICOLON)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Semicolon expected, got " + tokenTypeString[tokens[current].token_type] + " instead." );
+    if(!match(SEMICOLON)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Semicolon expected." );
     current++;
     Stmt* item_decl_stmt_ptr = new ItemDeclStmt(identifier_tkn, value_expr_ptr);
     return item_decl_stmt_ptr;
@@ -144,7 +144,7 @@ Stmt* MBoxParser::statement(){
 
 Stmt* MBoxParser::exprStmt(){
     Expr* expr_ptr = parseExpression();
-    if(!match(SEMICOLON)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Semicolon expected, got " + tokenTypeString[tokens[current].token_type] + " instead." );
+    if(!match(SEMICOLON)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Semicolon expected." );
     current++;
     Stmt* es_ptr = new ExprStmt(expr_ptr);
     this->stmt_pointers.push_back(es_ptr);

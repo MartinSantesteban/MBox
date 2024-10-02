@@ -45,5 +45,5 @@ TEST_CASE("Check if error is thrown when geting undefined variable."){
     MBoxEnvironment e;
     string varName = "x";
     
-    CHECK_THROWS_WITH(e.getVariableValue(varName), "[MBoxEnvironment] : x is not defined!");
+    CHECK_THROWS_WITH(e.getVariableValue(varName), "[MBoxEnvironment] : x is not a defined variable.");
 }

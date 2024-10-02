@@ -38,7 +38,7 @@ TEST_CASE("Correct parsing of Print Statement. -- Missing semicolon throws an er
     Literal l(&t2);    
     PrintStmt ps(&l);
 
-    CHECK_THROWS_WITH(p.parseStmt(), "MBoxParser :: line 0 -- Semicolon expected.");
+    CHECK_THROWS_WITH(p.parseStmt(), "[MBoxParser] in line 0: Semicolon expected.");
 }
 
 TEST_CASE("Correct parsing of Expr Statement."){
@@ -69,7 +69,7 @@ TEST_CASE("Correct parsing of Expr Statement. -- Missing semicolon throws an err
     Literal l(&t1);    
     ExprStmt ps(&l);
 
-    CHECK_THROWS_WITH(p.parseStmt(), "MBoxParser :: line 0 -- Semicolon expected.");
+    CHECK_THROWS_WITH(p.parseStmt(), "[MBoxParser] in line 0: Semicolon expected.");
 }
 
 TEST_CASE("Correct parsing of program."){
