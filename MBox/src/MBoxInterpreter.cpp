@@ -104,7 +104,7 @@ void MBoxInterpreter::interpretItemDeclStmt(ItemDeclStmt& ids){
 }
 
 void MBoxInterpreter::interpretRedefinitionStmt(RedefinitionStmt& rs){
-    this->environment.setVariableValue(rs.itemName(), this->interpretExpr(*rs.value_expr)); 
+    this->environment.redefineVariableValue(rs.itemName(), this->interpretExpr(*rs.value_expr)); 
 }
 
 MBoxInterpreter::~MBoxInterpreter(){
@@ -113,7 +113,6 @@ MBoxInterpreter::~MBoxInterpreter(){
     }
 }
 
-// OBS
 MBoxObject* MBoxInterpreter::getVariableValue(string varName){
     return this->environment.getVariableValue(varName);
 }

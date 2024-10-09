@@ -314,7 +314,7 @@ TEST_CASE("Testing: Correct interpretation of PrintStatement."){
 
     MBoxInterpreter i;
     i.interpretStmt(ps);          // deberia printear 5
-
+    cout << endl;
     CHECK(true);
 }
 

@@ -10,6 +10,7 @@ class MBoxEnvironment{
         MBoxEnvironment(map<string, MBoxObject*>& m);
         
         void setVariableValue(string var, MBoxObject* o);
+        void redefineVariableValue(string var, MBoxObject* o);
         MBoxObject* getVariableValue(string var);
         bool isEmpty();
     private:
