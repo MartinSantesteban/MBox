@@ -85,3 +85,25 @@ TEST_CASE("Correct parsing of item variable expression."){
     CHECK(*out == es);
 
 }
+
+TEST_CASE("Correct parsing of item redefinition expression."){
+    vector<Token> tokens;
+    Token t1(IDENTIFIER, "num", 0);
+    Token t2(EQUAL, "=", 0);
+    Token t3(NUMBER, "43", 0);
+    Token t4(SEMICOLON, ";", 0);
+    
+    tokens.push_back(t1);
+    tokens.push_back(t2);
+    tokens.push_back(t3);
+    tokens.push_back(t4);
+
+    MBoxParser mp(tokens);
+    Stmt* out = mp.parseStmt();
+
+    Literal l(&t3);
+    RedefinitionStmt rs(&t1, &l);
+
+    CHECK(*out == rs);
+
+}

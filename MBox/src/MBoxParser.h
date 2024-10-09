@@ -28,6 +28,7 @@ class MBoxParser{
         Stmt* itemDeclStmt();
         Stmt* statement();
         Stmt* printStmt();
+        Stmt* redefinitionStmt();
         Stmt* exprStmt();
         
         bool match(tokenType t);

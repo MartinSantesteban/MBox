@@ -55,3 +55,23 @@ bool ItemDeclStmt::_equals(Stmt& s){
 string ItemDeclStmt::itemName(){
     return this->identifier_tkn->lexeme;
 }
+
+RedefinitionStmt::RedefinitionStmt(Token* identifier_tkn, Expr* e){
+    this->identifier_tkn = identifier_tkn;
+    this->value_expr = e;
+}
+
+void RedefinitionStmt::accept(MBoxInterpreter& i){
+    return i.interpretRedefinitionStmt(*this); //change
+}
+
+bool RedefinitionStmt::_equals(Stmt& s){
+    if(typeid(*this) != typeid(s)) return false;
+    RedefinitionStmt& ids = static_cast<RedefinitionStmt &>(s);
+    return *(this->identifier_tkn) == *(ids.identifier_tkn) &&
+           *(this->value_expr) == *(ids.value_expr);
+}
+
+string RedefinitionStmt::itemName(){
+    return this->identifier_tkn->lexeme;
+}

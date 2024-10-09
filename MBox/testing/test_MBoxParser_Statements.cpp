@@ -99,3 +99,31 @@ TEST_CASE("Correct parsing of program."){
     CHECK(*res[1] == es);
     CHECK(*res[2] == ps2);
 }
+
+TEST_CASE("Correct parsing of rogramp."){
+    Token t1(PRINT, "print", 0);
+    Token t2(NUMBER, "7", 0);
+    Token t3(SEMICOLON, ";", 0);
+    Token t4(NUMBER, "8", 0);
+    Token t5(SEMICOLON, ";", 0);
+    Token t6(PRINT, "print", 0);
+    Token t7(NUMBER, "9", 0);
+    Token t8(SEMICOLON, ";", 0);
+
+    vector<Token> tokens = {t1, t2, t3, t4, t5, t6, t7, t8};
+
+    MBoxParser p(tokens);
+
+    Literal l1(&t2);    
+    Literal l2(&t4);    
+    Literal l3(&t7); 
+
+    PrintStmt ps1(&l1);
+    ExprStmt es(&l2);
+    PrintStmt ps2(&l3);
+
+    auto res = p.parseProgram();
+    CHECK(*res[0] == ps1);
+    CHECK(*res[1] == es);
+    CHECK(*res[2] == ps2);
+}

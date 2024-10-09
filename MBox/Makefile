@@ -2,6 +2,8 @@
 # <tab> commands to make target
 # Cuando usas make Target, se encarga make de que todas las dependencias esten up to date.
 
+# REFACTOREAR ESTO QUE ES HORRIBLE!!!
+
 CC=g++
 CFLAGS= -c -g -Wall -Wno-return-type
 BINDIR=./bin

@@ -103,6 +103,10 @@ void MBoxInterpreter::interpretItemDeclStmt(ItemDeclStmt& ids){
     this->environment.setVariableValue(ids.itemName(), this->interpretExpr(*ids.value_expr)); 
 }
 
+void MBoxInterpreter::interpretRedefinitionStmt(RedefinitionStmt& rs){
+    this->environment.setVariableValue(rs.itemName(), this->interpretExpr(*rs.value_expr)); 
+}
+
 MBoxInterpreter::~MBoxInterpreter(){
     for(auto &ptr : this->objects){     
         delete ptr;

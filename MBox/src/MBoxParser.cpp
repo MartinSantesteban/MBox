@@ -139,7 +139,25 @@ Stmt* MBoxParser::itemDeclStmt(){
 
 Stmt* MBoxParser::statement(){
     if(match(PRINT)) return printStmt();
+    if(match(IDENTIFIER)) return redefinitionStmt();
     return exprStmt();
+}
+
+// Si matchea identifier, entonces puede ser o una redef o una exprStmt.
+// Chequear la jerarquia, lo pongo aca pq me parece por ahora
+Stmt* MBoxParser::redefinitionStmt(){ 
+    //match(IDENTIFIER)
+    Token* identifier_tkn = consumeToken();
+    if(!match(EQUAL)){ //si no está el =, entocnes estoy en una expresion que arranca con un identifier!
+        current--;
+        return exprStmt();
+    }
+    current++;
+    Expr* value_expr_ptr = parseExpression();
+    if(!match(SEMICOLON)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current - 1].line) + ": Semicolon expected." );
+    current++;
+    Stmt* item_redef_stmt = new RedefinitionStmt(identifier_tkn, value_expr_ptr);
+    return item_redef_stmt;
 }
 
 Stmt* MBoxParser::exprStmt(){

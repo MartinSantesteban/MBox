@@ -16,6 +16,7 @@ class Stmt;
 class ExprStmt;
 class PrintStmt;
 class ItemDeclStmt;
+class RedefinitionStmt;
 
 class MBoxObject;
 
@@ -37,6 +38,7 @@ class MBoxInterpreter{
               void interpretExprStmt(ExprStmt& es);
               void interpretPrintStmt(PrintStmt& ps);
               void interpretItemDeclStmt(ItemDeclStmt& ids);
+              void interpretRedefinitionStmt(RedefinitionStmt& ids);
 
               MBoxObject* getVariableValue(string varName);
        private:
