@@ -114,12 +114,12 @@ Expr* MBoxParser::ifbox(){
     Expr* res;
     if(match(IF)){
         current++;
-        if(!match(DOTS)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Double dots expected in ifbox definition."); 
+        if(!match(DOTS)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Double dots expected in ifBox definition."); 
         current++;
         Expr* condition = expression();
         res = new IfBox(condition);
         this->expr_pointers.push_back(res);
-        if(!match(R_BRACE)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Right brace expected in ifbox definition."); 
+        if(!match(R_BRACE)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Right brace expected in ifBox definition."); 
         current++;
     }
     return res;
