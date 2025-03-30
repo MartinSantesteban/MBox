@@ -78,6 +78,12 @@ MBoxObject* MBoxInterpreter::interpretUnary(Unary& e){
     }
 };
 
+MBoxObject* MBoxInterpreter::interpretIfBox(IfBox& e){
+    MBoxNil n;
+    return &n;
+}
+
+
 // STATEMENTS
 
 void MBoxInterpreter::interpretProgram(vector<Stmt*> vs){

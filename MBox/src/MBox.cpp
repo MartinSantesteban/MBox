@@ -92,12 +92,12 @@ func_name ->; // print 55
 b1 <- True;
 b1@1; // True
 print b1; // [3, True]
-print b1; // []
 
 [S] b1;  //set box
 [N] b2;  //named box
 
 [3] b3; // box with three items
+
 
 // control flow
 [? : expr] ifBox;

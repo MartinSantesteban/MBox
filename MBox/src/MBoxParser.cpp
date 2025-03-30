@@ -50,6 +50,7 @@ Expr* MBoxParser::expression(){
     Expr* res = equality();
     return res;
 }
+
 Expr* MBoxParser::equality(){
     vector<tokenType> equality_operators = {EQUAL_EQUAL, BANG_EQUAL};
     return BinaryPositiveClossure(this, &MBoxParser::comparison, equality_operators);
@@ -100,7 +101,28 @@ Expr* MBoxParser::primary(){
         return res;
     }
     if(match(R_PAREN)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Left parenthesis expected."); 
+    if(match(L_BRACE)){
+        Expr* res = ifbox();
+        return res;
+    }
     throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Invalid token encountered.");
+}
+
+Expr* MBoxParser::ifbox(){
+    //match(L_BRACE) es true
+    current++;
+    Expr* res;
+    if(match(IF)){
+        current++;
+        if(!match(DOTS)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Double dots expected in ifbox definition."); 
+        current++;
+        Expr* condition = expression();
+        res = new IfBox(condition);
+        this->expr_pointers.push_back(res);
+        if(!match(R_BRACE)) throw invalid_argument("[MBoxParser] in line " + to_string(this->tokens[current].line) + ": Right brace expected in ifbox definition."); 
+        current++;
+    }
+    return res;
 }
 
 // STATEMENTS
@@ -109,6 +131,7 @@ vector<Stmt*> MBoxParser::parseProgram(){
     vector<Stmt*> res = vector<Stmt*>();
     while(current < this->tokens.size()){
         res.push_back(this->parseStmt());
+        while(match(END_OF_LINE)) current++; 
     }
     return res;
 }

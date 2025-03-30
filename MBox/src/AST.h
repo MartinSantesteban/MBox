@@ -63,6 +63,17 @@ class Unary : public Expr{
         bool _equals(Expr& e);
 };
 
+class IfBox : public Expr{
+    public:
+        IfBox(Expr *t);
+        Expr* condition; 
+        string accept(Visitor& v);
+        MBoxObject* accept(MBoxInterpreter& v);
+    private: 
+        bool _equals(Expr& e);
+};
+
+
 #endif
 
 // al ser clases bastante anemicas no hago privados los miembros. 

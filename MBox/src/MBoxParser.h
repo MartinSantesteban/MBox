@@ -23,6 +23,7 @@ class MBoxParser{
         Expr* factor();
         Expr* unary();
         Expr* primary();
+        Expr* ifbox();
 
         Stmt* declaration();
         Stmt* itemDeclStmt();

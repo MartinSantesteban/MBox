@@ -1,6 +1,6 @@
 #include "./src/MBox.h"
 
 int main(int argc, const char** argv){
-	MBox cl;
-	return cl.scan(argc, argv);
+	MBox m;
+	return m.scan(argc, argv);
 }

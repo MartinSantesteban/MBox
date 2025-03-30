@@ -56,6 +56,9 @@ test_MBoxEnvironment: enums_and_maps.o MBoxObject.o MBoxEnvironment.o test_MBoxE
 binary: enums_and_maps.o token.o AST.o SST.o MBoxLexer.o MBoxParser.o MBoxEnvironment.o MBoxInterpreter.o MBox.o main.o MBoxObject.o
 	$(CC) -o $(BINDIR)/MBoxMain $(BINDIR)/enums_and_maps.o $(BINDIR)/token.o $(BINDIR)/AST.o $(BINDIR)/MBoxLexer.o $(BINDIR)/MBoxParser.o $(BINDIR)/SST.o $(BINDIR)/MBoxObject.o $(BINDIR)/MBoxEnvironment.o $(BINDIR)/MBoxInterpreter.o $(BINDIR)/MBox.o $(BINDIR)/main.o 
 
+test_IfBox: enums_and_maps.o token.o AST.o SST.o MBoxLexer.o MBoxParser.o MBoxEnvironment.o MBoxInterpreter.o MBox.o main.o MBoxObject.o visitor.o test_IfBox.o
+	$(CC) -o $(BINDIR)/test_IfBox $(BINDIR)/enums_and_maps.o $(BINDIR)/token.o $(BINDIR)/AST.o $(BINDIR)/MBoxLexer.o $(BINDIR)/MBoxParser.o $(BINDIR)/SST.o $(BINDIR)/MBoxObject.o $(BINDIR)/MBoxEnvironment.o $(BINDIR)/MBoxInterpreter.o $(BINDIR)/MBox.o $(BINDIR)/test_IfBox.o $(BINDIR)/visitor.o
+	$(BINDIR)/test_IfBox
 
 ######################################################################################################################################################
 
@@ -122,3 +125,6 @@ MBoxEnvironment.o: ./src/MBoxEnvironment.cpp
 test_MBoxEnvironment.o: ./testing/test_MBoxEnvironment.cpp
 	$(CC) $(CFLAGS) ./testing/test_MBoxEnvironment.cpp -o $(BINDIR)/test_MBoxEnvironment.o
 	
+test_IfBox.o: ./testing/test_IfBox.cpp
+	$(CC) $(CFLAGS) ./testing/test_IfBox.cpp -o $(BINDIR)/test_IfBox.o
+

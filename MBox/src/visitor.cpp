@@ -10,6 +10,8 @@ string Visitor::visitLiteral(Literal& e){return "";}
 
 string Visitor::visitUnary(Unary& e){return "";}
 
+string Visitor::visitIfBox(IfBox& e){return "";}
+
 string Printer::visit(Expr& e){
        return e.accept(*this);
 }
@@ -31,5 +33,10 @@ string Printer::visitLiteral(Literal& e){
 
 string Printer::visitUnary(Unary& e){
        string s = e.op->lexeme + (*e.right).accept(*this);
+       return s;
+}
+
+string Printer::visitIfBox(IfBox& e){
+       string s = "? : " + (*e.condition).accept(*this);
        return s;
 }

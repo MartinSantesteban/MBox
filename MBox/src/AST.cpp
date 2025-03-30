@@ -66,7 +66,7 @@ MBoxObject* Literal::accept(MBoxInterpreter& i){
 
 bool Literal::_equals(Expr& e){
     if(typeid(*this) != typeid(e)) return false;     
-    auto e_literal = dynamic_cast<Literal &>(e);
+    auto e_literal = static_cast<Literal &>(e);
     return *(this->value) == *(e_literal.value);
 }
 
@@ -89,3 +89,22 @@ bool Unary::_equals(Expr& e){
     return *(this->op) == *(e_unary.op) && *(this->right) == *(e_unary.right);
 }
 
+// IFBOX    
+
+IfBox::IfBox(Expr *e){
+    this->condition = e;
+}
+
+string IfBox::accept(Visitor& v){
+    return v.visitIfBox(*this);
+}
+
+MBoxObject* IfBox::accept(MBoxInterpreter& i){
+    return i.interpretIfBox(*this);
+}
+
+bool IfBox::_equals(Expr& e){
+    if(typeid(*this) != typeid(e)) return false;
+    auto e_ifbox = static_cast<IfBox &>(e);
+    return *(this->condition) == *(e_ifbox.condition);
+}

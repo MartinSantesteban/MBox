@@ -9,7 +9,7 @@ class Binary;
 class Grouping;
 class Literal;
 class Unary;
-
+class IfBox;
 
 class Visitor{
 public:
@@ -18,6 +18,7 @@ public:
        virtual string visitGrouping(Grouping& e);
        virtual string visitLiteral(Literal& e);
        virtual string visitUnary(Unary& e);
+       virtual string visitIfBox(IfBox& e);
 };
 
 class Printer : public Visitor{
@@ -27,6 +28,7 @@ public:
        string visitGrouping(Grouping& e);
        string visitLiteral(Literal& e);
        string visitUnary(Unary& e);
+       string visitIfBox(IfBox& e);
 };
 
 #endif

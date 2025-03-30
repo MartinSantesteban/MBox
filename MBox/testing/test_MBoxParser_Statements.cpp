@@ -100,7 +100,7 @@ TEST_CASE("Correct parsing of program."){
     CHECK(*res[2] == ps2);
 }
 
-TEST_CASE("Correct parsing of rogramp."){
+TEST_CASE("Correct parsing of program."){
     Token t1(PRINT, "print", 0);
     Token t2(NUMBER, "7", 0);
     Token t3(SEMICOLON, ";", 0);

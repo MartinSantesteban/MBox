@@ -11,6 +11,7 @@ class Binary;
 class Grouping;
 class Literal;
 class Unary;
+class IfBox;
 
 class Stmt;
 class ExprStmt;
@@ -32,6 +33,7 @@ class MBoxInterpreter{
               MBoxObject* interpretGrouping(Grouping& e);
               MBoxObject* interpretLiteral(Literal& e);
               MBoxObject* interpretUnary(Unary& e);
+              MBoxObject* interpretIfBox(IfBox& e);
 
               void interpretProgram(vector<Stmt*> ps);
               void interpretStmt(Stmt& s);
